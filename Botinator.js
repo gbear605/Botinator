@@ -24,7 +24,7 @@ function newChat(data) {
                         API.sendChat("Botinator Disabled.");
                 }
         }
-	if (data.message.indexOf('!enablebotinator') > -1 && API.hasPermission(data.fromID, 1)) {
+	if (data.message.indexOf('!enablebot') > -1 && API.hasPermission(data.fromID, 1)) {
                 botEnabled = true;
                 API.sendChat("Botinator Enabled.");
         }
