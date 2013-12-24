@@ -8,7 +8,7 @@ var botEnabled = true;
 function newChat(data) {
         if (botEnabled) {
 		if (data.message.indexOf('!source') > -1 || data.message.indexOf('!sourcecode') > -1) {
-			API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at https://gist.github.com/Gbear605/8108184.");
+			API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at https://github.com/Gbear605/Botinator");
 		}
                 if (data.message.indexOf('!nextepisode') > -1) {
                         var nextepisodeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/next\"&format=json");
@@ -23,6 +23,10 @@ function newChat(data) {
                         enabled = false;
                         API.sendChat("Botinator Disabled.");
                 }
+        }
+	if (data.message.indexOf('!enablebotinator') > -1 && API.hasPermission(data.fromID, 1)) {
+                enabled = true;
+                API.sendChat("Botinator Enabled.");
         }
 
 }
