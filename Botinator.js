@@ -19,13 +19,13 @@ function newChat(data) {
                                 });
                         });
                 }
-                if (data.message.indexOf('!disablebotinator') > -1 && API.hasPermission(data.fromID, 1)) {
-                        enabled = false;
+                if (data.message.indexOf('!disablebot') > -1 && API.hasPermission(data.fromID, 1)) {
+                        botEnabled = false;
                         API.sendChat("Botinator Disabled.");
                 }
         }
 	if (data.message.indexOf('!enablebotinator') > -1 && API.hasPermission(data.fromID, 1)) {
-                enabled = true;
+                botEnabled = true;
                 API.sendChat("Botinator Enabled.");
         }
 
@@ -35,12 +35,12 @@ function newChatCommand(data) {
         console.log(data);
         if (botEnabled) {
                 if (data.indexOf('disable') > -1) {
-                        enabled = false;
+                        botEnabled = false;
                         //API.chatLog("Botinator Disabled.");
                 }
         }
         if (data.indexOf('enable') > -1) {
-                enabled = true;
+                botEnabled = true;
                 //API.chatLog("Botinator Enabled.");
         }
 
