@@ -58,11 +58,6 @@ function newChat(data)
             });
         }
 
-        if (data.message.toLowerCase().indexOf('!weird') > -1 || data.message.toLowerCase().indexOf('!weirdday') > -1)
-        {
-            API.sendChat("http://weirdday.info/");
-        }
-
         //disables the bot
         //bouncers+
         //!disablebot
