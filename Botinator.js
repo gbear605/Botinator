@@ -74,8 +74,9 @@ function newChat(data)
                 canterlockusers[userfrom] = 1;
                 console.log(data.from + " is using canterlock for the first time.");
             }
-            API.sendChat("@" + data.from + " Please follow !rule 8");
-            API.sendChat(userfrom + " has used canterlock " + canterlockusers[userfrom] + " times.");
+            if(canterlockusers[userfrom] % 2 == 1){
+                API.sendChat("!rule 8 @" + userfrom + " has used canterlock " + canterlockusers[userfrom] + " times.");
+            }
         }
 
         //disables the bot
