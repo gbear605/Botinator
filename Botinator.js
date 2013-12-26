@@ -7,6 +7,8 @@ var botEnabled = true;
 
 var canterlockusers = {};
 
+var capslockrepitition = 2;
+
 function newChat(data)
 {
     if (botEnabled)
@@ -74,7 +76,7 @@ function newChat(data)
                 canterlockusers[userfrom] = 1;
                 console.log(data.from + " is using canterlock for the first time.");
             }
-            if(canterlockusers[userfrom] % 2 == 1){
+            if(canterlockusers[userfrom] % capslockrepitition == 0){
                 API.sendChat("!rule 8 @" + userfrom + " has used canterlock " + canterlockusers[userfrom] + " times.");
             }
         }
@@ -82,8 +84,7 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!disablebot
-        if (data.message.toLowerCase().indexOf('!disablebot') > -1 && API.hasPermission(data.fromID,
-            2))
+        if (data.message.toLowerCase().indexOf('!disablebot') > -1 && API.hasPermission(data.fromID, 2))
         {
             botEnabled = false;
             API.sendChat("Botinator Disabled.");
