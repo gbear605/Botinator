@@ -65,12 +65,12 @@ function newChat(data)
         {
             var userfrom = data.from;
             if(userfrom in canterlockusers > -1){
-                canterlockusers[userfrom] = 1;
-                console.log(data.from + " is using canterlock for the first time.");
-            }
-            else{
                 canterlockusers[userfrom]++;
                 console.log(data.from + " has used canterlock " + canterlockusers[userfrom] + " times.");
+            }
+            else{
+                canterlockusers[userfrom] = 1;
+                console.log(data.from + " is using canterlock for the first time.");
             }
             API.sendChat("@" + data.from + " Please follow !rule 8");
         }
