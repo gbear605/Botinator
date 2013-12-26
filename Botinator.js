@@ -68,7 +68,7 @@ function newChat(data)
             API.sendChat("Botinator Disabled.");
         }
 
-        if(data.message.toUpperCase() == data.message)
+        if(data.message.toUpperCase() == data.message && data.message.length > 3)
         {
             API.sendChat("@" + data.from + " Please follow !rule 8");
         }
