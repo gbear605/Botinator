@@ -7,7 +7,7 @@ var botEnabled = true;
 
 var canterlockusers = {};
 
-var capslockrepitition = 2;
+var capslockrepetition = 2;
 
 function newChat(data)
 {
