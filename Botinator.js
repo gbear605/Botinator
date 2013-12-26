@@ -64,11 +64,14 @@ function newChat(data)
         if(data.message.toUpperCase() == data.message && data.message.length > 3)
         {
             var userfrom = data.from;
+            console.log(canterlockusers);
             if(userfrom in canterlockusers > -1){
+                console.log("canterlock used");
                 canterlockusers[userfrom]++;
                 console.log(data.from + " has used canterlock " + canterlockusers[userfrom] + " times.");
             }
             else{
+                console.log("canterlock used");
                 canterlockusers[userfrom] = 1;
                 console.log(data.from + " is using canterlock for the first time.");
             }
