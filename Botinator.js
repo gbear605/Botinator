@@ -64,8 +64,6 @@ function newChat(data)
         if(data.message.toUpperCase() == data.message && data.message.length > 3)
         {
             var userfrom = data.from;
-            console.log("CANTERLOCK");
-            API.sendChat("CANTERLOCK");
             console.log(canterlockusers);
             if(userfrom in canterlockusers > -1){
                 console.log("canterlock used");
