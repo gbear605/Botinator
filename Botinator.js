@@ -21,7 +21,6 @@ function newChat(data) {
                     var nextEpisodeTimeHours = Math.round(((nextepisodetime / (1000 * 60 * 60)) % 24));
                     var nextEpisodeTimeMinutes = Math.round(((nextepisodetime / (1000 * 60)) % 60));
                     var nextEpisodeTimeSeconds = Math.round((nextepisodetime / 1000) % 60);
-                    var nextEpisodeTime
                     API.sendChat("The next episode is \"" + nextEpisodeName + "\" and it is in " + nextEpisodeTimeDays + " days, " + nextEpisodeTimeHours + " hours, " + nextEpisodeTimeMinutes + " minutes, and " + nextEpisodeTimeSeconds + " seconds.");
                 });
             });
