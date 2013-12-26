@@ -5,6 +5,9 @@ API.on(API.CHAT_COMMAND, newChatCommand);
 
 var botEnabled = true;
 
+var canterlockusers = {};
+var hasUsedCanterlock = {};
+
 function newChat(data)
 {
     if (botEnabled)
@@ -61,14 +64,14 @@ function newChat(data)
         //Anti canterlock bot stuff
         if(data.message.toUpperCase() == data.message && data.message.length > 3)
         {
-            var users = {};
-            if(users.data.from == null){
-                users.data.from = 1;
+            var userfrom = data.from;
+            if(!canterlockusers.indexOf(userfrom) > -1){
+                users.[userfrom] = 1;
                 console.log(data.from + " is using canterlock for the first time.");
             }
             else{
-                users.data.from++;
-                console.log(data.from + " has used canterlock " + users.data.from + " times.");
+                users.[userfrom]++;
+                console.log(data.from + " has used canterlock " + users.[userfrom] + " times.");
             }
             API.sendChat("@" + data.from + " Please follow !rule 8");
         }
