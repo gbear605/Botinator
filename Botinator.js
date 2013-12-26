@@ -61,25 +61,21 @@ function newChat(data)
         }
 
         //Anti canterlock bot stuff
-        if(data.message.toUpperCase() == data.message && data.message.length > 3)
+        if(data.message.toUpperCase() == data.message && data.message.length > 5)
         {
             var userfrom = data.from;
             console.log(canterlockusers);
             if(userfrom in canterlockusers){
                 console.log("canterlock used");
-                console.log(canterlockusers[userfrom]);
                 canterlockusers[userfrom]++;
-                console.log(canterlockusers[userfrom]);
-                console.log(data.from + " has used canterlock " + canterlockusers[userfrom] + " times.");
+                console.log(userfrom + " has used canterlock " + canterlockusers[userfrom] + " times.");
             }
             else{
-                console.log("canterlock used");
-                console.log(canterlockusers[userfrom]);
                 canterlockusers[userfrom] = 1;
-                console.log(canterlockusers[userfrom]);
                 console.log(data.from + " is using canterlock for the first time.");
             }
             API.sendChat("@" + data.from + " Please follow !rule 8");
+            API.sendChat(userfrom + " has used canterlock " + canterlockusers[userfrom] + " times.");
         }
 
         //disables the bot
