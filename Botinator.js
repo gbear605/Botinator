@@ -12,14 +12,14 @@ function newChat(data)
         //!source || !sourcecode
         if (data.message.toLowerCase().indexOf('!source') > -1 || data.message.toLowerCase().indexOf('!sourcecode') > -1)
         {
-            sourceCode(data);
+            sourceCode();
         }
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
         //!nextepisode || !nextep
         if (data.message.toLowerCase().indexOf('!nextepisode') > -1 || data.message.toLowerCase().indexOf('!nextep') > -1)
         {
-            nextEpisode(data);
+            nextEpisode();
         }
 
         //Anti canterlock bot stuff
@@ -33,7 +33,7 @@ function newChat(data)
         //!disablebot
         if (data.message.toLowerCase().indexOf('!disablebot') > -1 && API.hasPermission(data.fromID, 2))
         {
-            disable(data, false);
+            disable(false);
         }
 
     }
@@ -44,7 +44,7 @@ function newChat(data)
         //!enablebot
         if (data.message.toLowerCase().indexOf('!enablebot') > -1 && API.hasPermission(data.fromID, 2))
         {
-            enable(data, false);
+            enable(false);
         }
     }
 
@@ -58,21 +58,21 @@ function newChatCommand(data)
         // /disable
         if (data.toLowerCase().indexOf('disable') > -1)
         {
-            disable(data, true);
+            disable(true);
         }
 
         //turn off canterlock checking
         // /canterlockoff
         if (data.toLowerCase().indexOf('canterlockoff') > -1)
         {
-            disableCanterlock();
+            disableCanterlock(true);
         }
 
         //turn on canterlock checking
         // /canterlockon
         if (data.toLowerCase().indexOf('canterlockon') > -1)
         {
-            enableCanterlock();
+            enableCanterlock(true);
         }
     }
 
