@@ -76,7 +76,7 @@ function newChat(data)
                 canterlockusers[userfrom] = 1;
                 console.log(data.from + " is using canterlock for the first time.");
             }
-            if(canterlockusers[userfrom] % capslockrepitition == 0){
+            if(canterlockusers[userfrom] % capslockrepitition == 1){
                 API.sendChat("!rule 8 @" + userfrom + " has used canterlock " + canterlockusers[userfrom] + " times.");
             }
         }
