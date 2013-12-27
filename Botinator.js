@@ -65,14 +65,14 @@ function newChatCommand(data)
         // /canterlockoff
         if (data.toLowerCase().indexOf('canterlockoff') > -1)
         {
-            disableCanterlock(true);
+            disableCanterlock();
         }
 
         //turn on canterlock checking
         // /canterlockon
         if (data.toLowerCase().indexOf('canterlockon') > -1)
         {
-            enableCanterlock(true);
+            enableCanterlock();
         }
     }
 
@@ -164,11 +164,13 @@ function disable(privateCommand)
 function disableCanterlock()
 {
     capslockOn = false;
+    API.chatLog("Canterlock Disabled")
 }
 
 function enableCanterlock()
 {
     capslockOn = true;
+    API.chatLog("Canterlock Enabled")
 }
 
 API.on(API.CHAT, newChat);
