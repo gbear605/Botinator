@@ -4,6 +4,96 @@ var canterlockUsers = {};
 var capslockrepetition = 2;
 var capslockOn = false;
 
+
+function sourceCode()
+{
+    API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at https://github.com/Gbear605/Botinator");
+}
+
+function nextEpisode()
+{
+    var nextepisodeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/next\"&format=json");
+    //waits for the JSON to load, then does stuff in curly braces
+    nextepisodeJSON.complete(function ()
+    {
+        var nextepisodetimeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/until/next\"&format=json");
+        var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
+        //waits for the JSON to load, then does stuff in curly braces
+        nextepisodetimeJSON.complete(function ()
+        {
+            var nextepisodetime = nextepisodetimeJSON.responseJSON.query.results.json;
+            var nextEpisodeTimeDays = Math.round(((nextepisodetime / (1000 * 60 * 60 * 24))));
+            var nextEpisodeTimeHours = Math.round(((nextepisodetime / (1000 * 60 * 60)) % 24));
+            var nextEpisodeTimeMinutes = Math.round(((nextepisodetime / (1000 * 60)) % 60));
+            var nextEpisodeTimeSeconds = Math.round(((nextepisodetime / 1000) % 60)); 
+            API.sendChat("The next episode is \"" +
+                nextEpisodeName + "\" and it is in " +
+                nextEpisodeTimeDays + " days, " +
+                nextEpisodeTimeHours + " hours, " +
+                nextEpisodeTimeMinutes + " minutes, and " +
+                nextEpisodeTimeSeconds + " seconds.");
+        });
+    });
+}
+
+function canterlock(data)
+{
+    var userfrom = data.from;
+
+    //check whether this is the first time using canterlock
+    if (userfrom in canterlockUsers)
+    {
+        canterlockUsers[userfrom] += 1;
+    }
+    else
+    {
+        canterlockUsers[userfrom] = 1;
+    }
+
+    if (canterlockUsers[userfrom] % capslockrepetition === 1)
+    {
+        API.sendChat("!rule 8 @" + userfrom + " has used canterlock " + canterlockUsers[userfrom] + " times.");
+    }
+}
+
+function enable(privateCommand)
+{
+    botEnabled = true;
+    if (privateCommand)
+    {
+        API.chatLog("Botinator Enabled.");
+    }
+    else
+    {
+        API.sendChat("Botinator Enabled.");
+    }
+}
+
+function disable(privateCommand)
+{
+    botEnabled = false;
+    if (privateCommand)
+    {
+        API.chatLog("Botinator Disabled.");
+    }
+    else
+    {
+        API.sendChat("Botinator Disabled.");
+    }
+}
+
+function disableCanterlock()
+{
+    capslockOn = false;
+    API.chatLog("Canterlock Disabled");
+}
+
+function enableCanterlock()
+{
+    capslockOn = true;
+    API.chatLog("Canterlock Enabled");
+}
+
 function newChat(data)
 {
     if (botEnabled)
@@ -84,94 +174,6 @@ function newChatCommand(data)
     }
 }
 
-function sourceCode()
-{
-    API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at https://github.com/Gbear605/Botinator");
-}
-
-function nextEpisode()
-{
-    var nextepisodeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/next\"&format=json");
-    //waits for the JSON to load, then does stuff in curly braces
-    nextepisodeJSON.complete(function ()
-    {
-        var nextepisodetimeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/until/next\"&format=json");
-        var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-        //waits for the JSON to load, then does stuff in curly braces
-        nextepisodetimeJSON.complete(function ()
-        {
-            var nextepisodetime = nextepisodetimeJSON.responseJSON.query.results.json;
-            var nextEpisodeTimeDays = Math.round(((nextepisodetime / (1000 * 60 * 60 * 24))));
-            var nextEpisodeTimeHours = Math.round(((nextepisodetime / (1000 * 60 * 60)) % 24));
-            var nextEpisodeTimeMinutes = Math.round(((nextepisodetime / (1000 * 60)) % 60));
-            var nextEpisodeTimeSeconds = Math.round(((nextepisodetime / 1000) % 60)); 
-            API.sendChat("The next episode is \"" +
-                nextEpisodeName + "\" and it is in " +
-                nextEpisodeTimeDays + " days, " +
-                nextEpisodeTimeHours + " hours, " +
-                nextEpisodeTimeMinutes + " minutes, and " +
-                nextEpisodeTimeSeconds + " seconds.");
-        });
-    });
-}
-
-function canterlock(data)
-{
-    var userfrom = data.from;
-
-    //check whether this is the first time using canterlock
-    if (userfrom in canterlockUsers)
-    {
-        canterlockUsers[userfrom]++;
-    }
-    else
-    {
-        canterlockUsers[userfrom] = 1;
-    }
-
-    if (canterlockUsers[userfrom] % capslockrepetition == 1)
-    {
-        API.sendChat("!rule 8 @" + userfrom + " has used canterlock " + canterlockUsers[userfrom] + " times.");
-    }
-}
-
-function enable(privateCommand)
-{
-    botEnabled = true;
-    if (privateCommand)
-    {
-        API.chatLog("Botinator Enabled.");
-    }
-    else
-    {
-        API.sendChat("Botinator Enabled.");
-    }
-}
-
-function disable(privateCommand)
-{
-    botEnabled = false;
-    if (privateCommand)
-    {
-        API.chatLog("Botinator Disabled.");
-    }
-    else
-    {
-        API.sendChat("Botinator Disabled.");
-    }
-}
-
-function disableCanterlock()
-{
-    capslockOn = false;
-    API.chatLog("Canterlock Disabled")
-}
-
-function enableCanterlock()
-{
-    capslockOn = true;
-    API.chatLog("Canterlock Enabled")
-}
 
 API.on(API.CHAT, newChat);
 API.chatLog("Botinator Loaded");
