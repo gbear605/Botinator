@@ -22,10 +22,12 @@ function nextEpisode()
         nextepisodetimeJSON.complete(function ()
         {
             var nextepisodetime = nextepisodetimeJSON.responseJSON.query.results.json;
-            var nextEpisodeTimeDays = Math.round(((nextepisodetime / (1000 * 60 * 60 * 24))));
-            var nextEpisodeTimeHours = Math.round(((nextepisodetime / (1000 * 60 * 60)) % 24));
-            var nextEpisodeTimeMinutes = Math.round(((nextepisodetime / (1000 * 60)) % 60));
-            var nextEpisodeTimeSeconds = Math.round(((nextepisodetime / 1000) % 60)); 
+            
+            var nextEpisodeTimeSeconds = Math.round(nextepisodetime * 1000); 
+            var nextEpisodeTimeMinutes = nextEpisodeTimeSeconds*60;
+            var nextEpisodeTimeHours = nextEpisodeTimeMinutes*60;
+            var nextEpisodeTimeDays = nextEpisodeTimeHours*24;
+
             API.sendChat("The next episode is \"" +
                 nextEpisodeName + "\" and it is in " +
                 nextEpisodeTimeDays + " days, " +
