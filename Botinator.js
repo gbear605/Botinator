@@ -16,23 +16,9 @@ function nextEpisode()
     //waits for the JSON to load, then does stuff in curly braces
     nextepisodeJSON.complete(function ()
     {
-        var nextepisodetimeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/until/next\"&format=json");
         var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-        //waits for the JSON to load, then does stuff in curly braces
-        nextepisodetimeJSON.complete(function ()
-        {
-            var nextepisodetime = nextepisodetimeJSON.responseJSON.query.results.json;
-            var nextEpisodeTimeDays = Math.round(((nextepisodetime / (1000 * 60 * 60 * 24))));
-            var nextEpisodeTimeHours = Math.round(((nextepisodetime / (1000 * 60 * 60)) % 24))-1;
-            var nextEpisodeTimeMinutes = Math.round(((nextepisodetime / (1000 * 60)) % 60));
-            var nextEpisodeTimeSeconds = Math.round(((nextepisodetime / 1000) % 60)); 
-            API.sendChat("The next episode is \"" +
-                nextEpisodeName + "\" and it is in " +
-                nextEpisodeTimeDays + " days, " +
-                nextEpisodeTimeHours + " hours, " +
-                nextEpisodeTimeMinutes + " minutes, and " +
-                nextEpisodeTimeSeconds + " seconds.");
-        });
+        var nextepisodetime = nextepisodetimeJSON.responseJSON.query.results.json;
+        API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
     });
 }
 
@@ -106,8 +92,8 @@ function newChat(data)
         }
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
-        //!nextepisode || !nextep
-        if (data.message.toLowerCase().indexOf('!nextepisode') > -1 || data.message.toLowerCase().indexOf('!nextep') > -1)
+        //!nextepisode || !nextep || !next
+        if (data.message.toLowerCase().indexOf('!nextepisode') > -1 || data.message.toLowerCase().indexOf('!nextep') > -1 || data.message.toLowerCase().indexOf('!next') > -1)
         {
             nextEpisode();
         }
