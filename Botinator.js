@@ -17,7 +17,6 @@ function nextEpisode()
     nextepisodeJSON.complete(function ()
     {
         var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-        var nextepisodetime = nextepisodetimeJSON.responseJSON.query.results.json;
         API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
     });
 }
