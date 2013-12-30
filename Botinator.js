@@ -159,8 +159,18 @@ function newChatCommand(data)
     }
 }
 
-function userjoined(user){
+function userJoined(user){
     API.chatLog(user.username + " joined the room.");
+}
+
+function friendJoined(user) {
+  alert("Your friend " + user.username + " just joined the room");
+}
+
+function fanJoined(user) {
+
+  alert("Your fan " + user.username + " just joined the room");
+
 }
 
 API.chatLog("Botinator Loaded");
@@ -169,4 +179,8 @@ API.on(API.CHAT, newChat);
 
 API.on(API.CHAT_COMMAND, newChatCommand);
 
-API.on(API.USER_JOIN, userjoined);
+API.on(API.USER_JOIN, userJoined);
+
+API.on(API.FRIEND_JOIN, friendJoined);
+
+API.on(API.FAN_JOIN, fanJoined);
