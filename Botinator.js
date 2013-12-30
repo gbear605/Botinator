@@ -159,8 +159,14 @@ function newChatCommand(data)
     }
 }
 
+function userjoined(user){
+    API.chatLog(user.username + " joined the room.");
+}
 
-API.on(API.CHAT, newChat);
 API.chatLog("Botinator Loaded");
 
+API.on(API.CHAT, newChat);
+
 API.on(API.CHAT_COMMAND, newChatCommand);
+
+API.on(API.USER_JOIN, userjoined);
