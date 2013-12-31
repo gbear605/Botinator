@@ -7,12 +7,15 @@ var capslockOn = false;
 
 function sourceCode()
 {
-    API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at https://github.com/Gbear605/Botinator");
+    var sourceCodeSite = "https://github.com/Gbear605/Botinator";
+    API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at " + sourceCodeSite);
 }
 
 function nextEpisode()
 {
-    var nextepisodeJSON = $.getJSON("http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"http://api.ponycountdown.com/next\"&format=json");
+    var nextEpisodeAPISite = http://api.ponycountdown.com/next
+    var nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
+    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite);
     //waits for the JSON to load, then does stuff in curly braces
     nextepisodeJSON.complete(function ()
     {
@@ -85,20 +88,25 @@ function newChat(data)
     {
         //Tells the source code for the bot
         //!source || !sourcecode
-        if (data.message.toLowerCase().indexOf('!source') > -1 || data.message.toLowerCase().indexOf('!sourcecode') > -1)
+        if (data.message.toLowerCase().indexOf('!source') > -1 
+            || data.message.toLowerCase().indexOf('!sourcecode') > -1)
         {
             sourceCode();
         }
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
         //!nextepisode || !nextep || !next
-        if (data.message.toLowerCase().indexOf('!nextepisode') > -1 || data.message.toLowerCase().indexOf('!nextep') > -1 || data.message.toLowerCase().indexOf('!next') > -1)
+        if (data.message.toLowerCase().indexOf('!nextepisode') > -1 
+            || data.message.toLowerCase().indexOf('!nextep') > -1 
+            || data.message.toLowerCase().indexOf('!next') > -1)
         {
             nextEpisode();
         }
 
         //Anti canterlock bot stuff
-        if (data.message.toUpperCase() === data.message && data.message.length > 5 && capslockOn === true)
+        if (data.message.toUpperCase() === data.message 
+            && data.message.length > 5 
+            && capslockOn === true)
         {
             canterlock(data);
         }
@@ -106,7 +114,8 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!disablebot
-        if (data.message.toLowerCase().indexOf('!disablebot') > -1 && API.hasPermission(data.fromID, 2))
+        if (data.message.toLowerCase().indexOf('!disablebot') > -1 
+            && API.hasPermission(data.fromID, 2))
         {
             disable(false);
         }
@@ -117,7 +126,8 @@ function newChat(data)
         //enables the bot
         //bouncers+
         //!enablebot
-        if (data.message.toLowerCase().indexOf('!enablebot') > -1 && API.hasPermission(data.fromID, 2))
+        if (data.message.toLowerCase().indexOf('!enablebot') > -1 
+            && API.hasPermission(data.fromID, 2))
         {
             enable(false);
         }
@@ -164,13 +174,15 @@ function userJoined(user){
 }
 
 function friendJoined(user) {
-  alert("Your friend " + user.username + " just joined the room");
+    API.chatLog("Your friend " + user.username + " just joined the room");
 }
 
 function fanJoined(user) {
+    API.chatLog("Your fan " + user.username + " just joined the room");
+}
 
-  alert("Your fan " + user.username + " just joined the room");
-
+function userLeft(user) {
+    API.chatLog(user.username + " left the room");
 }
 
 API.chatLog("Botinator Loaded");
@@ -184,3 +196,5 @@ API.on(API.USER_JOIN, userJoined);
 API.on(API.FRIEND_JOIN, friendJoined);
 
 API.on(API.FAN_JOIN, fanJoined);
+
+API.on(API.USER_LEAVE, userLeft);
