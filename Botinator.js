@@ -13,7 +13,7 @@ function sourceCode()
 
 function nextEpisode()
 {
-    var nextEpisodeAPISite = http://api.ponycountdown.com/next
+    var nextEpisodeAPISite = "http://api.ponycountdown.com/next"
     var nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
     var nextepisodeJSON = $.getJSON(nextEpisodeAPISite);
     //waits for the JSON to load, then does stuff in curly braces
