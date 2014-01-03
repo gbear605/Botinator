@@ -170,6 +170,13 @@ function newChatCommand(data)
         {
             enableCanterlock();
         }
+
+        //say all usernames in format "@USERNAME1 @USERNAME2"
+        // /all
+        if (data.toLowerCase().indexOf('all') > -1)
+        {
+            all();
+        }
     }
 
     //enable bot
