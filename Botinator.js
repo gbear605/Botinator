@@ -88,9 +88,9 @@ function all()
     var allMessage = "";
     for(var i = 0; i < userList.length; i++)
     {
-        allMessage = allMessage + userList[i].username;
+        allMessage = allMessage + " @" + userList[i].username;
     }
-    chatLog(allMessage);
+    API.chatLog(allMessage);
 }
 
 function newChat(data)
