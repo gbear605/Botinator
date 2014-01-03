@@ -212,6 +212,11 @@ function nextDJ(data){
         {
             API.djJoin()
         }
+        nextSong = API.getNextMedia();
+        if(nextSong.inHistory == true)
+        {
+            API.chatLog("Next song in history!");
+        }
     }
 }
 
