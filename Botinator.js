@@ -76,12 +76,10 @@ function disable(privateCommand)
 
 function checkHistory()
 {
-    console.log("checking history");
     nextSong = API.getNextMedia();
     for(var i = 0; i < history.length; i++)
     {
-        console.log("checking history " + i);
-        if(nextSong.media == history[i].media )
+        if(nextSong.media.cid == history[i].media.cid)
         {
             API.chatLog("Next song in history!");
         }
