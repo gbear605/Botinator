@@ -82,6 +82,17 @@ function enableCanterlock()
     API.chatLog("Canterlock Enabled");
 }
 
+function all()
+{
+    userList = API.getUsers();
+    var allMessage = "";
+    for(var i = 0; i < userList.length; i++)
+    {
+        allMessage = allMessage + userList[i].username;
+    }
+    chatLog(allMessage);
+}
+
 function newChat(data)
 {
     if (botEnabled)
