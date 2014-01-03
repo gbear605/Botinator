@@ -124,7 +124,7 @@ function newChat(data)
         //!disablebot
         if (data.message.toLowerCase().indexOf('!status') > -1 
             && API.hasPermission(data.fromID, 1) 
-            && data.message.toLowerCase().indexOf("@" + API.getUser().username) > -1))
+            && data.message.toLowerCase().indexOf("@" + API.getUser().username > -1))
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
