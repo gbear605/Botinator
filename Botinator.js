@@ -4,6 +4,8 @@ var canterlockUsers = {};
 var capslockrepetition = 2;
 var capslockOn = false;
 
+var autowoot = true;
+var autojoin = true;
 
 function sourceCode()
 {
@@ -13,22 +15,21 @@ function sourceCode()
 
 function nextEpisode(privateCommand)
 {
+    privateCommand = true;
     var nextEpisodeAPISite = "http://api.ponycountdown.com/next"
     var nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
-    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite);
-    //waits for the JSON to load, then does stuff in curly braces
-    nextepisodeJSON.complete(function ()
-    {
-        var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-        if(privateCommand)
+    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite,function ()
         {
-            API.chatLog("The next episode is \"" + nextEpisodeName + "\"" );
-        }
-        else
-        {
-            API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
-        }
-    });
+            var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
+            if(privateCommand)
+            {
+                API.chatLog("The next episode is \"" + nextEpisodeName + "\"" );
+            }
+            else
+            {
+                API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
+            }
+        });
     privateCommand = null;
 }
 
@@ -80,18 +81,6 @@ function disable(privateCommand)
     privateCommand = null;
 }
 
-function disableCanterlock()
-{
-    capslockOn = false;
-    API.chatLog("Canterlock Disabled");
-}
-
-function enableCanterlock()
-{
-    capslockOn = true;
-    API.chatLog("Canterlock Enabled");
-}
-
 function newChat(data)
 {
     if (botEnabled)
@@ -123,13 +112,22 @@ function newChat(data)
 
         //disables the bot
         //bouncers+
-        //!disablebot
-        if (data.message.toLowerCase().indexOf('!disablebot') > -1 
-            && API.hasPermission(data.fromID, 2))
+        //!disable
+        if (data.message.toLowerCase().indexOf('!disable') > -1 
+            && API.hasPermission(data.fromID, 1))
         {
             disable(false);
         }
 
+        //says the bot's status
+        //bouncers+
+        //!disablebot
+        if (data.message.toLowerCase().indexOf('!status') > -1 
+            && API.hasPermission(data.fromID, 1) 
+            && data.message.toLowerCase().indexOf("@" + API.getUser().username) > -1))
+        {
+            API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
+        }
     }
     else
     {
@@ -160,14 +158,16 @@ function newChatCommand(data)
         // /canterlockoff
         if (data.toLowerCase().indexOf('canterlockoff') > -1)
         {
-            disableCanterlock();
+            capslockOn = false;
+            API.chatLog("Canterlock Disabled");
         }
 
         //turn on canterlock checking
         // /canterlockon
         if (data.toLowerCase().indexOf('canterlockon') > -1)
         {
-            enableCanterlock();
+            capslockOn = true;
+            API.chatLog("Canterlock Enabled");
         }
 
         //load next episode data
@@ -202,6 +202,20 @@ function userLeft(user) {
     API.chatLog(user.username + " left the room");
 }
 
+function nextDJ(data){
+    if(autowoot)
+    {
+        $("#woot").click();
+    }
+    if(autojoin)
+    {
+        if(data.lastPlay.dj.id == API.getUser().id)
+        {
+            API.djJoin()
+        }
+    }
+}
+
 API.chatLog("Botinator Loaded");
 
 API.on(API.CHAT, newChat);
@@ -215,3 +229,5 @@ API.on(API.FRIEND_JOIN, friendJoined);
 API.on(API.FAN_JOIN, fanJoined);
 
 API.on(API.USER_LEAVE, userLeft);
+
+API.on(API.DJ_ADVANCE, nextDJ);
