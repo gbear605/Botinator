@@ -20,7 +20,11 @@ function nextEpisode(privateCommand)
     nextepisodeJSON.complete(function ()
     {
         var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-        if(!privateCommand)
+        if(privateCommand)
+        {
+            API.chatLog("The next episode is \"" + nextEpisodeName + "\"" );
+        }
+        else
         {
             API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
         }
