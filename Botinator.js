@@ -11,7 +11,7 @@ function sourceCode()
     API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at " + sourceCodeSite);
 }
 
-function nextEpisode()
+function nextEpisode(privateCommand)
 {
     var nextEpisodeAPISite = "http://api.ponycountdown.com/next"
     var nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
@@ -20,8 +20,12 @@ function nextEpisode()
     nextepisodeJSON.complete(function ()
     {
         var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-        API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
+        if(!privateCommand)
+        {
+            API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
+        }
     });
+    privateCommand = null;
 }
 
 function canterlock(data)
@@ -55,6 +59,7 @@ function enable(privateCommand)
     {
         API.sendChat("Botinator Enabled.");
     }
+    privateCommand = null;
 }
 
 function disable(privateCommand)
@@ -68,6 +73,7 @@ function disable(privateCommand)
     {
         API.sendChat("Botinator Disabled.");
     }
+    privateCommand = null;
 }
 
 function disableCanterlock()
@@ -80,15 +86,6 @@ function enableCanterlock()
 {
     capslockOn = true;
     API.chatLog("Canterlock Enabled");
-}
-
-function all()
-{
-    userList = API.getUsers();
-    for(var i = 0; i < userList.length; i++)
-    {
-        API.chatLog(" @" + userList[i].username);
-    }
 }
 
 function newChat(data)
@@ -109,7 +106,7 @@ function newChat(data)
             || data.message.toLowerCase().indexOf('!nextep') > -1 
             || data.message.toLowerCase().indexOf('!next') > -1)
         {
-            nextEpisode();
+            nextEpisode(false);
         }
 
         //Anti canterlock bot stuff
@@ -169,11 +166,11 @@ function newChatCommand(data)
             enableCanterlock();
         }
 
-        //say all usernames in format "@USERNAME1 @USERNAME2"
-        // /all
-        if (data.toLowerCase().indexOf('all') > -1)
+        //load next episode data
+        // /next 
+        if (data.toLowerCase().indexOf('next') > -1)
         {
-            all();
+            nextEpisode(true);
         }
     }
 
