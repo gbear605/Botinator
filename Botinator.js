@@ -9,12 +9,6 @@ var autojoin = true;
 
 var history = API.getHistory();
 
-function sourceCode()
-{
-    var sourceCodeSite = "https://github.com/Gbear605/Botinator";
-    API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at " + sourceCodeSite);
-}
-
 function nextEpisode()
 {
     var nextEpisodeAPISite = "http://api.ponycountdown.com/next"
@@ -95,7 +89,8 @@ function newChat(data)
         if (data.message.toLowerCase().indexOf('!source') > -1 
             || data.message.toLowerCase().indexOf('!sourcecode') > -1)
         {
-            sourceCode();
+            var sourceCodeSite = "https://github.com/Gbear605/Botinator";
+            API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at " + sourceCodeSite);
         }
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
