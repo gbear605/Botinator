@@ -85,12 +85,10 @@ function enableCanterlock()
 function all()
 {
     userList = API.getUsers();
-    var allMessage = "";
     for(var i = 0; i < userList.length; i++)
     {
-        allMessage = allMessage + " @" + userList[i].username;
+        API.chatLog(" @" + userList[i].username);
     }
-    API.chatLog(allMessage);
 }
 
 function newChat(data)
