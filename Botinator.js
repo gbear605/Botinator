@@ -74,6 +74,18 @@ function disable(privateCommand)
     privateCommand = null;
 }
 
+function checkHistory()
+{
+    nextSong = API.getNextMedia();
+    for(var i = 0; i < history.length; i++)
+    {
+        if(nextSong.media == history[i].media )
+        {
+            API.chatLog("Next song in history!");
+        }
+    }
+}
+
 function newChat(data)
 {
     if (botEnabled)
@@ -161,6 +173,13 @@ function newChatCommand(data)
             capslockOn = true;
             API.chatLog("Canterlock Enabled");
         }
+
+        //check if next song is in history
+        // /nextsong
+        if (data.toLowerCase().indexOf('nextsong') > -1)
+        {
+            checkHistory();
+        }
     }
 
     //enable bot
@@ -198,15 +217,8 @@ function nextDJ(data){
         {
             API.djJoin();
         }
-        nextSong = API.getNextMedia();
     }
-    for(var i = 0; i < history.length; i++)
-    {
-        if(nextSong.media == history[i].media )
-        {
-            API.chatLog("Next song in history!");
-        }
-    }
+    checkHistory();
 }
 
 API.chatLog("Botinator Loaded");
