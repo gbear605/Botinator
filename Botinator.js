@@ -7,6 +7,8 @@ var capslockOn = false;
 var autowoot = true;
 var autojoin = true;
 
+var history = API.getHistory();
+
 function sourceCode()
 {
     var sourceCodeSite = "https://github.com/Gbear605/Botinator";
@@ -210,12 +212,15 @@ function nextDJ(data){
     {
         if(data.lastPlay.dj.id == API.getUser().id)
         {
-            API.djJoin()
+            API.djJoin();
         }
         nextSong = API.getNextMedia();
-        if(nextSong.inHistory == true)
-        {
-            API.chatLog("Next song in history!");
+
+        for(var i = 0; i < history.length; i++){
+            if(nextSong.media == history[i].media )
+            {
+                API.chatLog("Next song in history!");
+            }
         }
     }
 }
