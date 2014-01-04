@@ -77,6 +77,10 @@ function checkHistory()
         {
             API.chatLog("Next song in history!");
         }
+        else
+        {
+            API.chatLog("Next song not in history")
+        }
     }
 }
 
@@ -174,6 +178,39 @@ function newChatCommand(data)
         if (data.toLowerCase().indexOf('nextsong') > -1)
         {
             checkHistory();
+        }
+
+        //disable autojoin
+        // /j
+        if (data.toLowerCase().indexOf('j') > -1)
+        {
+            if(autojoin){
+                autojoin = false;
+                API.chatLog("auto join disabled")
+            }
+            else
+            {
+                autojoin = true;
+                API.chatLog("auto join enabled")
+
+            }
+        }
+
+        //disable autowoot
+        // /w
+        if (data.toLowerCase().indexOf('w') > -1)
+        {
+            if(autowoot){
+                autowoot = false;
+                API.chatLog("auto woot disabled")
+
+            }
+            else
+            {
+                autowoot = true;
+                API.chatLog("auto woot enabled")
+
+            }
         }
     }
 
