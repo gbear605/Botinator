@@ -70,17 +70,20 @@ function disable(privateCommand)
 
 function checkHistory()
 {
+    nextSongInHistory = false;
     nextSong = API.getNextMedia();
     for(var i = 0; i < history.length; i++)
     {
         if(nextSong.media.cid == history[i].media.cid)
         {
             API.chatLog("Next song in history!");
+            nextSongInHistory = true;
         }
-        else
-        {
-            API.chatLog("Next song not in history")
-        }
+        
+    }
+    if(nextSongInHistory == false)
+    {
+        API.chatLog("Next song not in history")
     }
 }
 
