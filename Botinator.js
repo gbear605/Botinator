@@ -155,14 +155,14 @@ function newChatCommand(data)
     {
         //disable bot
         // /disable
-        if (message[0] == "disable")
+        if (message[0] == "/disable")
         {
             disable(true);
         }
 
         //turn off canterlock checking
         // /canterlockoff
-        if (message[0] == 'canterlockoff')
+        if (message[0] == '/canterlockoff')
         {
             capslockOn = false;
             API.chatLog("Canterlock Disabled");
@@ -170,7 +170,7 @@ function newChatCommand(data)
 
         //turn on canterlock checking
         // /canterlockon
-        if (message[0] == 'canterlockon')
+        if (message[0] == '/canterlockon')
         {
             capslockOn = true;
             API.chatLog("Canterlock Enabled");
@@ -178,14 +178,14 @@ function newChatCommand(data)
 
         //check if next song is in history
         // /nextsong
-        if (message[0] == 'nextsong')
+        if (message[0] == '/nextsong')
         {
             checkHistory();
         }
 
         //disable autojoin
         // /j
-        if (message[0] == 'j')
+        if (message[0] == '/j')
         {
             if(autojoin){
                 autojoin = false;
@@ -201,7 +201,7 @@ function newChatCommand(data)
 
         //disable autowoot
         // /w
-        if (message[0] == 'w')
+        if (message[0] == '/w')
         {
             if(autowoot){
                 autowoot = false;
@@ -219,7 +219,7 @@ function newChatCommand(data)
 
     //enable bot
     // /enable
-    if (message[0] == 'enable')
+    if (message[0] == '/enable')
     {
         enable(true);
     }
