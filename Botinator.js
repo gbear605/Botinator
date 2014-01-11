@@ -127,10 +127,8 @@ function newChat(data)
         }
 
         //says the bot's status
-        //bouncers+
-        //!disablebot
-        if (data.message.toLowerCase().indexOf('!status') > -1 
-            && data.message.toLowerCase().indexOf("@" + API.getUser().username > -1))
+        //!status
+        if (data.message.toLowerCase().indexOf('!status') > -1 )
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
@@ -151,18 +149,19 @@ function newChat(data)
 
 function newChatCommand(data)
 {
+	message = data.toLowerCase.split(' ');
     if (botEnabled)
     {
         //disable bot
         // /disable
-        if (data.toLowerCase().indexOf('disable') > -1)
+        if (message[0] = "disable")
         {
             disable(true);
         }
 
         //turn off canterlock checking
         // /canterlockoff
-        if (data.toLowerCase().indexOf('canterlockoff') > -1)
+        if (message[0] = 'canterlockoff')
         {
             capslockOn = false;
             API.chatLog("Canterlock Disabled");
@@ -170,7 +169,7 @@ function newChatCommand(data)
 
         //turn on canterlock checking
         // /canterlockon
-        if (data.toLowerCase().indexOf('canterlockon') > -1)
+        if (message[0] = 'canterlockon')
         {
             capslockOn = true;
             API.chatLog("Canterlock Enabled");
@@ -178,14 +177,14 @@ function newChatCommand(data)
 
         //check if next song is in history
         // /nextsong
-        if (data.toLowerCase().indexOf('nextsong') > -1)
+        if (message[0] = 'nextsong')
         {
             checkHistory();
         }
 
         //disable autojoin
         // /j
-        if (data.toLowerCase().indexOf('j') > -1)
+        if (message[0] = 'j')
         {
             if(autojoin){
                 autojoin = false;
@@ -201,7 +200,7 @@ function newChatCommand(data)
 
         //disable autowoot
         // /w
-        if (data.toLowerCase().indexOf('w') > -1)
+        if (message[0] = 'w')
         {
             if(autowoot){
                 autowoot = false;
@@ -219,7 +218,7 @@ function newChatCommand(data)
 
     //enable bot
     // /enable
-    if (data.toLowerCase().indexOf('enable') > -1)
+    if (message[0] = 'enable')
     {
         enable(true);
     }
