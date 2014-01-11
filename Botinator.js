@@ -149,7 +149,8 @@ function newChat(data)
 
 function newChatCommand(data)
 {
-	message = data.toLowerCase.split(' ');
+	message = data.toLowerCase().split(' ');
+	console.log(message);
     if (botEnabled)
     {
         //disable bot
