@@ -89,11 +89,13 @@ function checkHistory()
 
 function newChat(data)
 {
+	message = data.message.toLowerCase().split(' ');
+	console.log(message);
     if (botEnabled)
     {
         //Tells the source code for the bot
         //!source || !sourcecode
-        if (data.message.toLowerCase().indexOf('!source') > -1 
+        if (message[0] == '!source'
             || data.message.toLowerCase().indexOf('!sourcecode') > -1)
         {
             var sourceCodeSite = "https://github.com/Gbear605/Botinator";
@@ -102,9 +104,9 @@ function newChat(data)
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
         //!nextepisode || !nextep || !next
-        if (data.message.toLowerCase().indexOf('!nextepisode') > -1 
-            || data.message.toLowerCase().indexOf('!nextep') > -1 
-            || data.message.toLowerCase().indexOf('!next') > -1)
+        if (message[0] == '!nextepisode' 
+            || message[0] == '!nextep' 
+            || message[0] == '!next')
         {
             nextEpisode();
         }
@@ -120,7 +122,7 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!disable
-        if (data.message.toLowerCase().indexOf('!disable') > -1 
+        if (message[0] == '!disable' 
             && API.hasPermission(data.fromID, 1))
         {
             disable(false);
@@ -128,7 +130,7 @@ function newChat(data)
 
         //says the bot's status
         //!status
-        if (data.message.toLowerCase().indexOf('!status') > -1 )
+        if (message[0] == '!status')
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
