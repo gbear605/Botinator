@@ -119,11 +119,19 @@ function newChat(data)
             canterlock(data);
         }
 
+        //says how many points the user needs to get the next level of avatars
+        //!points || !pts
+        if (message[0] == '!points'
+        	|| message[0] == '!pts')
+        {
+            API.sendChat("@" + data.from + " Botinator's point checker is not done yet. This is a placeholder command.");
+        }
+
         //disables the bot
         //bouncers+
         //!disable
         if (message[0] == '!disable' 
-            && API.hasPermission(data.fromID, 1))
+            && API.hasPermission(data.fromID, 1) && message[1] == '@gbear605' )
         {
             disable(false);
         }
@@ -260,11 +268,12 @@ function nextDJ(data){
 
 function voteUpdate(data){
 	if(data.vote == -1){
-		API.chatLog(data.user.username + " mehed " + media.author + " - " + media.title + ".");
+		API.chatLog(data.user.username + " mehed.");
 	}
 }
 
 function curateUpdate(data){
+	var media = API.getMedia();
 	API.chatLog(data.user.username + " curated " + media.author + " - " + media.title + ".");
 }
 
