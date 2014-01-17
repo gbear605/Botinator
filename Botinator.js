@@ -264,7 +264,7 @@ function nextDJ(data){
         }
     }
     checkHistory();
-    API.chatLog(data.dj.username " is playing "  + data.media.title + " by " + data.media.author);
+    API.chatLog(data.dj.username + " is playing "  + data.media.title + " by " + data.media.author);
 }
 
 function voteUpdate(data){
