@@ -131,7 +131,8 @@ function newChat(data)
         //bouncers+
         //!disable
         if (message[0] == '!disable' 
-            && API.hasPermission(data.fromID, 1) && message[1] == '@gbear605' )
+            && API.hasPermission(data.fromID, 1) 
+            && message[1] == ('@' + API.getUser()) )
         {
             disable(false);
         }
