@@ -266,7 +266,7 @@ function nextDJ(data){
     API.chatLog(data.dj.username + " is playing "  + data.media.title + " by " + data.media.author);
     for(var i = 0; i < history.length; i++)
     {
-        if(nextSong.media.cid == history[i].media.cid)
+        if(data.media.cid == history[i].media.cid)
         {
             API.chatLog("The current song is in history at place " + i+1 + "!");
         }
