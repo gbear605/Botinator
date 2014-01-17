@@ -258,6 +258,16 @@ function nextDJ(data){
     checkHistory();
 }
 
+function voteUpdate(data){
+	if(data.vote == -1){
+		API.chatLog(data.user.username + " mehed " + media.author + " - " + media.title + ".");
+	}
+}
+
+function curateUpdate(data){
+	API.chatLog(data.user.username + " curated " + media.author + " - " + media.title + ".");
+}
+
 API.chatLog("Botinator Loaded");
 
 API.on(API.CHAT, newChat);
@@ -273,3 +283,7 @@ API.on(API.FAN_JOIN, fanJoined);
 API.on(API.USER_LEAVE, userLeft);
 
 API.on(API.DJ_ADVANCE, nextDJ);
+
+API.on(API.VOTE_UPDATE, voteUpdate);
+
+API.on(API.CURATE_UPDATE, curateUpdate);
