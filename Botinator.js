@@ -269,7 +269,7 @@ function nextDJ(data){
     {
         if(data.media.cid == history[i].media.cid)
         {
-            API.chatLog("The current song is in history at place " + i+1 + "!");
+            API.chatLog("The current song is in history at place " + i + "!");
         }
     }
     checkHistory();
