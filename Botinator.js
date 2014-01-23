@@ -139,7 +139,8 @@ function newChat(data)
 
         //says the bot's status
         //!status
-        if (message[0] == '!status')
+        if (message[0] == '!status'
+            && (message[1] == ('@' + API.getUser()) || message[1] == (API.getUser()) ) )
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
