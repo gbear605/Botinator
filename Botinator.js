@@ -70,6 +70,7 @@ function disable(privateCommand)
 
 function checkHistory()
 {
+    history = API.getHistory();
     nextSongInHistory = false;
     nextSong = API.getNextMedia();
     for(var i = 0; i < history.length; i++)
