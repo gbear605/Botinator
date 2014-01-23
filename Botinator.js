@@ -288,6 +288,11 @@ function curateUpdate(data){
 
 API.chatLog("Botinator Loaded");
 
+document.write("<style>#chat .message .from, #chat .mention .from, #chat .moderation .from, #chat .emote .from { color:#B63434 }</style>");
+
+document.write("<style>#chat .update .text { color:#139456 }</style>");
+
+
 API.on(API.CHAT, newChat);
 
 API.on(API.CHAT_COMMAND, newChatCommand);
