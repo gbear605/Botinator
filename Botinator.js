@@ -81,10 +81,6 @@ function checkHistory()
         }
         
     }
-    if(nextSongInHistory == false)
-    {
-        API.chatLog("Next song not in history")
-    }
 }
 
 function newChat(data)
