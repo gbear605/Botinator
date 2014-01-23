@@ -140,7 +140,8 @@ function newChat(data)
         //says the bot's status
         //!status
         if (message[0] == '!status'
-            && (message[1] == ('@' + API.getUser()) || message[1] == (API.getUser()) ) )
+            && message[1] == ( '@' + API.getUser() ) 
+            )
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
@@ -288,11 +289,6 @@ function curateUpdate(data){
 }
 
 API.chatLog("Botinator Loaded");
-
-document.write("<style>#chat .message .from, #chat .mention .from, #chat .moderation .from, #chat .emote .from { color:#B63434 }</style>");
-
-document.write("<style>#chat .update .text { color:#139456 }</style>");
-
 
 API.on(API.CHAT, newChat);
 
