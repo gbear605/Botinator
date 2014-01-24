@@ -245,7 +245,14 @@ function newChatCommand(data)
         			modString = modString + " @" + staffList[i].username;
         		}
         	}
-        	API.chatLog(modString)
+        	if(message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
+        	{
+        		API.sendChat(modString);
+        	}
+        	else
+        	{
+        		API.chatLog(modString);
+        	}
         }
     }
 
