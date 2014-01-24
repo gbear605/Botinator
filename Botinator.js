@@ -234,13 +234,16 @@ function newChatCommand(data)
 
         //prepares an @ message to all the mods
         ///mod || /mods
-        if(message[0] == "/mods" || message[0] == "/mods")
+        if(message[0] == "/mod" || message[0] == "/mods")
         {
         	var staffList = API.getStaff()
         	var modString = "";
         	for(var i = 0; i < staffList.length; i++)
         	{
-        		modString = modString + " @" + staffList[i].username;
+        		if(staffList[1].permission != 1)
+        		{
+        			modString = modString + " @" + staffList[i].username;
+        		}
         	}
         	API.chatLog(modString)
         }
