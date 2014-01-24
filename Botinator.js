@@ -146,6 +146,8 @@ function newChat(data)
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
+
+
     }
     else
     {
@@ -228,6 +230,19 @@ function newChatCommand(data)
                 API.chatLog("auto woot enabled")
 
             }
+        }
+
+        //sends an @ message to all the mods
+        //@mod || @mods
+        if(message[0] == "@mods" || message[0] == "@mods")
+        {
+        	var staffList = API.getStaff()
+        	var modString = "";
+        	for(var i = 0; i < staffList.length; i++)
+        	{
+        		modString = modString + " @" + staffList[i].username);
+        	}
+        	API.chatLog(modString)
         }
     }
 
