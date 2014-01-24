@@ -9,15 +9,19 @@ var autojoin = true;
 
 var history = API.getHistory();
 
+var nextSong;
+
+var nextSongInHistory;
+
 function nextEpisode()
 {
-    var nextEpisodeAPISite = "http://api.ponycountdown.com/next"
-    var nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
-    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite,function ()
-        {
-            var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
-            API.sendChat("The next episode is \"" + nextEpisodeName + "\"" );
-        });
+    var nextEpisodeAPISite = "http://api.ponycountdown.com/next";
+    nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
+    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
+    {
+        var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
+        API.sendChat("The next episode is \"" + nextEpisodeName + "\"");
+    });
 }
 
 function canterlock(data)
@@ -70,30 +74,30 @@ function disable(privateCommand)
 
 function checkHistory()
 {
+    var i;
     history = API.getHistory();
     nextSongInHistory = false;
     nextSong = API.getNextMedia();
-    for(var i = 0; i < history.length; i++)
+    for (i = 0; i < history.length; i++)
     {
-        if(nextSong.media.cid == history[i].media.cid)
+        if (nextSong.media.cid == history[i].media.cid)
         {
             API.chatLog("Next song in history!");
             nextSongInHistory = true;
         }
-        
+
     }
 }
 
 function newChat(data)
 {
-	message = data.message.toLowerCase().split(' ');
-	console.log(message);
+    var message = data.message.toLowerCase().split(' ');
+    console.log(message);
     if (botEnabled)
     {
         //Tells the source code for the bot
         //!source || !sourcecode
-        if (message[0] == '!source'
-            || data.message.toLowerCase().indexOf('!sourcecode') > -1)
+        if (message[0] == '!source' || data.message.toLowerCase().indexOf('!sourcecode') > -1)
         {
             var sourceCodeSite = "https://github.com/Gbear605/Botinator";
             API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at " + sourceCodeSite);
@@ -101,25 +105,20 @@ function newChat(data)
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
         //!nextepisode || !nextep || !next
-        if (message[0] == '!nextepisode' 
-            || message[0] == '!nextep' 
-            || message[0] == '!next')
+        if (message[0] == '!nextepisode' || message[0] == '!nextep' || message[0] == '!next')
         {
             nextEpisode();
         }
 
         //Anti canterlock bot stuff
-        if (data.message.toUpperCase() === data.message 
-            && data.message.length > 5 
-            && capslockOn === true)
+        if (data.message.toUpperCase() === data.message && data.message.length > 5 && capslockOn === true)
         {
             canterlock(data);
         }
 
         //says how many points the user needs to get the next level of avatars
         //!points || !pts
-        if (message[0] == '!points'
-        	|| message[0] == '!pts')
+        if (message[0] == '!points' || message[0] == '!pts')
         {
             API.sendChat("@" + data.from + " Botinator's point checker is not done yet. This is a placeholder command.");
         }
@@ -127,22 +126,14 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!disable
-        if (message[0] == '!disable' 
-            && API.hasPermission(data.fromID, 1) 
-            && message[1] == ('@' + API.getUser().username ) )
+        if (message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username))
         {
             disable(false);
         }
 
         //says the bot's status
         //!status
-        if (message[0] == '!status'
-            && 
-            (
-                message[1] == ( '@' + API.getUser().username )
-                || message[1] == ( API.getUser().username ) 
-            )
-           )
+        if (message[0] == '!status' && (message[1] == ('@' + API.getUser().username) || message[1] == (API.getUser().username)))
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
@@ -154,8 +145,7 @@ function newChat(data)
         //enables the bot
         //bouncers+
         //!enablebot
-        if (data.message.toLowerCase().indexOf('!enablebot') > -1 
-            && API.hasPermission(data.fromID, 2))
+        if (data.message.toLowerCase().indexOf('!enablebot') > -1 && API.hasPermission(data.fromID, 2))
         {
             enable(false);
         }
@@ -165,8 +155,8 @@ function newChat(data)
 
 function newChatCommand(data)
 {
-	message = data.toLowerCase().split(' ');
-	console.log(message);
+    var message = data.toLowerCase().split(' ');
+    console.log(message);
     if (botEnabled)
     {
         //disable bot
@@ -203,14 +193,15 @@ function newChatCommand(data)
         // /j
         if (message[0] == '/j')
         {
-            if(autojoin){
+            if (autojoin)
+            {
                 autojoin = false;
-                API.chatLog("auto join disabled")
+                API.chatLog("auto join disabled");
             }
             else
             {
                 autojoin = true;
-                API.chatLog("auto join enabled")
+                API.chatLog("auto join enabled");
 
             }
         }
@@ -219,40 +210,42 @@ function newChatCommand(data)
         // /w
         if (message[0] == '/w')
         {
-            if(autowoot){
+            if (autowoot)
+            {
                 autowoot = false;
-                API.chatLog("auto woot disabled")
+                API.chatLog("auto woot disabled");
 
             }
             else
             {
                 autowoot = true;
-                API.chatLog("auto woot enabled")
+                API.chatLog("auto woot enabled");
 
             }
         }
 
         //prepares an @ message to all the mods
         ///mod || /mods
-        if(message[0] == "/mod" || message[0] == "/mods")
+        if (message[0] == "/mod" || message[0] == "/mods")
         {
-        	var staffList = API.getStaff()
-        	var modString = "";
-        	for(var i = 0; i < staffList.length; i++)
-        	{
-        		if(staffList[i].permission != 1)
-        		{
-        			modString = modString + " @" + staffList[i].username;
-        		}
-        	}
-        	if(message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
-        	{
-        		API.sendChat(modString);
-        	}
-        	else
-        	{
-        		API.chatLog(modString);
-        	}
+            var staffList = API.getStaff();
+            var modString = "";
+            var i;
+            for (i = 0; i < staffList.length; i++)
+            {
+                if (staffList[i].permission != 1)
+                {
+                    modString = modString + " @" + staffList[i].username;
+                }
+            }
+            if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
+            {
+                API.sendChat(modString);
+            }
+            else
+            {
+                API.chatLog(modString);
+            }
         }
     }
 
@@ -264,38 +257,44 @@ function newChatCommand(data)
     }
 }
 
-function userJoined(user){
+function userJoined(user)
+{
     API.chatLog(user.username + " joined the room.");
 }
 
-function friendJoined(user) {
+function friendJoined(user)
+{
     API.chatLog("Your friend " + user.username + " just joined the room");
 }
 
-function fanJoined(user) {
+function fanJoined(user)
+{
     API.chatLog("Your fan " + user.username + " just joined the room");
 }
 
-function userLeft(user) {
+function userLeft(user)
+{
     API.chatLog(user.username + " left the room");
 }
 
-function nextDJ(data){
-    if(autowoot)
+function nextDJ(data)
+{
+    var i;
+    if (autowoot)
     {
         $("#woot").click();
     }
-    if(autojoin)
+    if (autojoin)
     {
-        if(data.lastPlay.dj.id == API.getUser().id)
+        if (data.lastPlay.dj.id == API.getUser().id)
         {
             API.djJoin();
         }
     }
-    API.chatLog(data.dj.username + " is playing "  + data.media.title + " by " + data.media.author);
-    for(var i = 0; i < history.length; i++)
+    API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author);
+    for (i = 0; i < history.length; i++)
     {
-        if(data.media.cid == history[i].media.cid)
+        if (data.media.cid == history[i].media.cid)
         {
             API.chatLog("The current song is in history at place " + i + "!");
         }
@@ -303,15 +302,18 @@ function nextDJ(data){
     checkHistory();
 }
 
-function voteUpdate(data){
-	if(data.vote == -1){
-		API.chatLog(data.user.username + " mehed.");
-	}
+function voteUpdate(data)
+{
+    if (data.vote == -1)
+    {
+        API.chatLog(data.user.username + " mehed.");
+    }
 }
 
-function curateUpdate(data){
-	var media = API.getMedia();
-	API.chatLog(data.user.username + " curated " + media.author + " - " + media.title + ".");
+function curateUpdate(data)
+{
+    var media = API.getMedia();
+    API.chatLog(data.user.username + " curated " + media.author + " - " + media.title + ".");
 }
 
 API.chatLog("Botinator Loaded");
