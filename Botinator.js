@@ -232,9 +232,9 @@ function newChatCommand(data)
             }
         }
 
-        //sends an @ message to all the mods
-        //@mod || @mods
-        if(message[0] == "@mods" || message[0] == "@mods")
+        //prepares an @ message to all the mods
+        ///mod || /mods
+        if(message[0] == "/mods" || message[0] == "/mods")
         {
         	var staffList = API.getStaff()
         	var modString = "";
