@@ -240,7 +240,7 @@ function newChatCommand(data)
         	var modString = "";
         	for(var i = 0; i < staffList.length; i++)
         	{
-        		if(staffList[1].permission != 1)
+        		if(staffList[i].permission != 1)
         		{
         			modString = modString + " @" + staffList[i].username;
         		}
