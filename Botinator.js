@@ -240,7 +240,7 @@ function newChatCommand(data)
         	var modString = "";
         	for(var i = 0; i < staffList.length; i++)
         	{
-        		modString = modString + " @" + staffList[i].username);
+        		modString = modString + " @" + staffList[i].username;
         	}
         	API.chatLog(modString)
         }
