@@ -251,6 +251,13 @@ function newChatCommand(data)
                 API.chatLog(modString);
             }
         }
+
+        //Boop!
+        // /boop
+        if(message[0] == "/boop")
+        {
+            boop.play();
+        }
     }
 
     //enable bot
