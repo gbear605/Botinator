@@ -22,6 +22,14 @@ var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
     var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
 });
 
+function loadNextEpisode()
+{
+    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
+    {
+        var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
+    });
+}
+
 
 function nextEpisode()
 {
@@ -262,6 +270,13 @@ function newChatCommand(data)
         if(message[0] == "/boop")
         {
             boop.play();
+        }
+
+        //Loads the next episode info
+        // /load
+        if(message[0] == "/load")
+        {
+            loadNextEpisode();
         }
     }
 
