@@ -270,7 +270,10 @@ function newChatCommand(data)
 
 function userJoined(user)
 {
-    API.chatLog(user.username + " joined the room.");
+    if(user.relationship == 0)
+    {
+        API.chatLog(user.username + " joined the room.");
+    }
 }
 
 function friendJoined(user)
