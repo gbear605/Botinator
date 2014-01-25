@@ -94,11 +94,12 @@ function checkHistory()
     history = API.getHistory();
     nextSongInHistory = false;
     nextSong = API.getNextMedia();
-    for (i = 0; i < history.length; i++)
+    for (i = 0; i < history.length-1; i++)
     {
         if (nextSong.media.cid == history[i].media.cid)
         {
-            API.chatLog("The current song is in history at place " + i + "!");
+            place = i+1;
+            API.chatLog("The current song is in history at place " + place + "!");
             nextSongInHistory = true;
             boop.play();
         }
