@@ -13,6 +13,9 @@ var nextSong;
 
 var nextSongInHistory;
 
+var boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav');
+
+
 function nextEpisode()
 {
     var nextEpisodeAPISite = "http://api.ponycountdown.com/next";
@@ -84,6 +87,7 @@ function checkHistory()
         {
             API.chatLog("Next song in history!");
             nextSongInHistory = true;
+            boop.play();
         }
 
     }
