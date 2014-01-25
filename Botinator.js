@@ -24,9 +24,9 @@ var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
 
 function loadNextEpisode()
 {
-    var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
+    nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
     {
-        var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
+        nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
     });
 }
 
