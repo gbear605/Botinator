@@ -85,7 +85,7 @@ function checkHistory()
     {
         if (nextSong.media.cid == history[i].media.cid)
         {
-            API.chatLog("Next song in history!");
+            API.chatLog("The current song is in history at place " + i + "!");
             nextSongInHistory = true;
             boop.play();
         }
@@ -311,6 +311,7 @@ function nextDJ(data)
         if (data.media.cid == history[i].media.cid)
         {
             API.chatLog("The current song is in history at place " + i + "!");
+            boop.play();
         }
     }
     checkHistory();
