@@ -15,11 +15,16 @@ var nextSongInHistory;
 
 var boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav');
 
+var nextEpisodeAPISite = "http://api.ponycountdown.com/next";
+nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
+var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
+{
+    var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
+});
+
 
 function nextEpisode()
 {
-    var nextEpisodeAPISite = "http://api.ponycountdown.com/next";
-    nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
     var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
     {
         var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
