@@ -156,6 +156,13 @@ function newChat(data)
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
 
+        // http://istodaythedaymartymcflyarriveswhenhetravelstothefuture.com/
+        // !marty || !mcfly || !future || !bttf || !2015
+        if(message[0] == "!marty" || message[0] == "!mcfly" || message[0] == "!future" || message[0] == "!bttf" || message[0] == "!2015")
+        {
+            API.sendChat("@" + data.from + " http://istodaythedaymartymcflyarriveswhenhetravelstothefuture.com/");
+        }
+
 
     }
     else
