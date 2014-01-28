@@ -175,7 +175,7 @@ function newChat(data)
         if(message[0] == "!google")
         {
             var googleString = "";
-            for(int i = 1; i < message.length; i++)
+            for(var i = 1; i < message.length; i++)
             {
                 googleString = googleString + message[i];
             }
