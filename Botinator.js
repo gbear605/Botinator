@@ -177,7 +177,7 @@ function newChat(data)
             var googleString = "";
             for(var i = 1; i < message.length; i++)
             {
-                googleString = googleString + message[i];
+                googleString = googleString + message[i] + "+";
             }
             API.sendChat("@" + data.from + " http://lmgtfy.com/?q=" + googleString);
         }
