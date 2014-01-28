@@ -99,7 +99,7 @@ function checkHistory()
         if (nextSong.media.cid == history[i].media.cid)
         {
             place = i+1;
-            API.chatLog("The current song is in history at place " + place + "!");
+            API.chatLog("Your next song is in history at place " + place + "!");
             nextSongInHistory = true;
             boop.play();
         }
