@@ -163,6 +163,25 @@ function newChat(data)
             API.sendChat("@" + data.from + " http://istodaythedaymartymcflyarriveswhenhetravelstothefuture.com/");
         }
 
+        //links http://answeranything.tumblr.com/
+        // !answers || !answer
+        if(message[0] == "!answers" || message[0] == "!answer")
+        {
+            API.sendChat("@" + data.from + " http://answeranything.tumblr.com/");
+        }
+
+        //lmgtfy
+        // !google [STUFF]
+        if(message[0] == "!google")
+        {
+            var googleString = "";
+            for(int i = 1; i < message.length; i++)
+            {
+                googleString = googleString + message[i];
+            }
+            API.sendChat("@" + data.from + " http://lmgtfy.com/?q=" + googleString);
+        }
+
 
     }
     else
