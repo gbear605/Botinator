@@ -153,7 +153,7 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!botdisable
-        if (((message[0] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)) || ((message[0] == '!botoff' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botoff' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))
+        if (((message[0] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)) || ((message[0] == '!botoff' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botoff' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))))
         {
             botDisable(false, data);
         }
