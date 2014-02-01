@@ -74,16 +74,16 @@ function enable(privateCommand)
     privateCommand = null;
 }
 
-function disable(privateCommand)
+function botDisable(privateCommand, data)
 {
     botEnabled = false;
     if (privateCommand)
     {
-        API.chatLog("Botinator Disabled.");
+        API.chatLog("@" + data.from + " Botinator Disabled.");
     }
     else
     {
-        API.sendChat("Botinator Disabled.");
+        API.sendChat("@" + data.from + " Botinator Disabled.");
     }
     privateCommand = null;
 }
@@ -141,12 +141,21 @@ function newChat(data)
             API.sendChat("@" + data.from + " Botinator's point checker is not done yet. This is a placeholder command.");
         }
 
-        //disables the bot
+        //disables joining
         //bouncers+
         //!disable
         if ((message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!disable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))
         {
-            disable(false);
+            autojoin = false;
+            API.chatLog("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
+        }
+
+        //disables the bot
+        //bouncers+
+        //!botdisable
+        if (((message[0] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)) || ((message[0] == '!botoff' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botoff' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))
+        {
+            botDisable(false, data);
         }
 
         //says the bot's status
@@ -219,7 +228,7 @@ function newChatCommand(data)
         // /disable
         if (message[0] == "/disable")
         {
-            disable(true);
+            botDisable(true);
         }
 
         //turn off canterlock checking
