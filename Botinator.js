@@ -144,7 +144,7 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!disable
-        if ((message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!disable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username))
+        if ((message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!disable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))
         {
             disable(false);
         }
