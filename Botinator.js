@@ -144,14 +144,26 @@ function newChat(data)
         //disables the bot
         //bouncers+
         //!disable
-        if (message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username))
+        if ((message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!disable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username))
         {
             disable(false);
         }
 
         //says the bot's status
         //!status
-        if (message[0] == '!status' && (message[1] == ('@' + API.getUser().username) || message[1] == (API.getUser().username)))
+        if (
+            (message[0] == '!status' 
+            && (message[1] == ('@' + API.getUser().username) 
+                || message[1] == (API.getUser().username)
+                )
+            )
+             || 
+             (message[1] == '!status' 
+                && (message[0] == ('@' + API.getUser().username) 
+                    || message[0] == (API.getUser().username)
+                    )
+                )
+             )
         {
             API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
         }
