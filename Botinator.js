@@ -254,7 +254,7 @@ function newChat(data)
                                 .replace(/&gt;/g, ">")
                                 .toLowerCase().split(' '),
         mentioned = message.indexOf("@" + API.getUser().username) !== -1,
-        perm      = API.getUser(a.fromID).permission,
+        perm      = API.getUser(a.fromID).permission;
     console.log(message);
     if (botEnabled)
     {
