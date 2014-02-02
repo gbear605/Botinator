@@ -88,7 +88,7 @@ function statUp(e, t) {
 if (!localStorage.hasOwnProperty("Botinator")) {
     localStorage.Botinator = JSON.stringify({
         "autowoot"      : true,
-        "autojoin"      : false,
+        "autojoin"      : true,
         "automehed"     : {},// media.id: reason
         "automuted"     : [],// [media.id, ...]
         "stats"         : {},
