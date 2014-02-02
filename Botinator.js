@@ -259,7 +259,7 @@ function newChat(data)
                                 .toLowerCase().split(' '),
         mentioned = message.indexOf("@" + API.getUser().username) !== -1,
         perm      = API.getUser(data.fromID).permission;
-    console.log("[" + data.chatID + "]" + message);
+    console.log("[" + data.from + "]" + message);
     if (botEnabled)
     {
         //Tells the source code for the bot
@@ -511,14 +511,14 @@ function nextDJ(data)
     unmute();
     var i;
     if (get("autowoot")) {
-        (get("automehed").hasOwnProperty(a.media.id) ? meh : woot)();
+        (get("automehed").hasOwnProperty(data.media.id) ? meh : woot)();
     }
 
     if ((API.getWaitListPosition() === -1) && get("autojoin")) {
         join();
     }
 
-    if (get("automuted").indexOf(a.media.id) !== -1) {
+    if (get("automuted").indexOf(data.media.id) !== -1) {
         if (!isMuted) {
             setTimeout(mute, 3500);
         }
@@ -549,7 +549,7 @@ function voteUpdate(data)
     }
     else
     {
-        statup("woot", data.user.id);
+        statUp("woot", data.user.id);
     }
 }
 
