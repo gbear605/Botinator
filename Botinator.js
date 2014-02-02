@@ -124,6 +124,10 @@ function mute() {
     return !a;
 }
 
+function join() {
+    API.djJoin();
+}
+
 function initUser(id) {
     if (get("stats")[id] === undefined) {
         rset(".stats[\"" + id + "\"]", {    "joined"    : 0,
@@ -459,6 +463,11 @@ function newChatCommand(data)
         {
             loadNextEpisode();
         }
+
+        if(message[0] == "/mute")
+        {
+            mute();
+        }
     }
 
     //enable bot
@@ -494,18 +503,26 @@ function userLeft(user)
 
 function nextDJ(data)
 {
+    unmute();
     var i;
-    if (get("autowoot") === true)
-    {
-        woot();
+    if (get("autowoot")) {
+        (get("automehed").hasOwnProperty(a.media.id) ? meh : woot)();
     }
-    if (get("autojoin") === true)
-    {
-        if (data.lastPlay.dj.id == API.getUser().id)
-        {
-            API.djJoin();
+
+    if ((API.getWaitListPosition() === -1) && get("autojoin")) {
+        join();
+    }
+
+    if (get("automuted").indexOf(a.media.id) !== -1) {
+        if (!isMuted) {
+            setTimeout(mute, 3500);
+        }
+    } else {
+        if (artMute) {
+            setTimeout(unmute, 3500);
         }
     }
+
     API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author);
     for (i = 0; i < history.length; i++)
     {
