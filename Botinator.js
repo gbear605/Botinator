@@ -1,26 +1,145 @@
+//Vast credit to Mateon1, the maker of PlugPlug and overall awesome person.
+
 var botEnabled = true;
 
-var canterlockUsers = {};
-var capslockrepetition = 2;
-var capslockOn = false;
+var canterlockUsers = {},
+    capslockrepetition = 2,
+    capslockOn = false,
+    autowoot = true,
+    autojoin = true,
+    history = API.getHistory(),
+    nextSong,
+    nextSongInHistory,
+    lastVol = API.getVolume(),
+    isMuted = !lastVol,
+    artMute = false,
+    boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav'),
+    nextEpisodeAPISite = "http://api.ponycountdown.com/next";
 
-var autowoot = true;
-var autojoin = true;
-
-var history = API.getHistory();
-
-var nextSong;
-
-var nextSongInHistory;
-
-var boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav');
-
-var nextEpisodeAPISite = "http://api.ponycountdown.com/next";
 nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
+
 var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
 {
     var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
 });
+
+setInterval(function () {
+    isMuted = !API.getVolume();
+    if (!isMuted) {
+        artMute = isMuted = false;
+    }
+    if (!artMute) {
+        lastVol = API.getVolume();
+    }
+}, 5000);
+
+function rset(expr, value) {
+    var a = (value || true) && JSON.parse(localStorage.Botinator);
+    eval("a" + expr + " = value;");
+    localStorage.Botinator = JSON.stringify(a);
+}
+
+function get(prop) {
+    return JSON.parse(localStorage.Botinator)[prop];
+}
+
+function set(prop, value) {
+    var a = JSON.parse(localStorage.Botinator);
+    a[prop] = value;
+    localStorage.Botinator = JSON.stringify(a);
+}
+
+function statUp(e, t) {
+    var n = JSON.parse(localStorage.Botinator);
+    switch (e) {
+    case "join":
+    case "joined":
+        n.stats[t].joined += 1;
+        break;
+    case "play":
+    case "played":
+    case "djed":
+        n.stats[t].songs.played += 1;
+        break;
+    case "skip":
+    case "skipped":
+        n.stats[t].songs.skipped += 1;
+        break;
+    case "woot":
+    case "wooted":
+        n.stats[t].votes.ratio = (n.stats[t].votes.woot += 1) / (n.stats[t].votes.meh + n.stats[t].votes.woot);
+        break;
+    case "meh":
+    case "mehed":
+        n.stats[t].votes.ratio = n.stats[t].votes.woot / (n.stats[t].votes.woot + (n.stats[t].votes.meh += 1));
+        break;
+    default:
+        console.error("statUp(): unknown stat \"" + e + "\"");
+    }
+    localStorage.Botinator = JSON.stringify(n);
+}
+
+if (!localStorage.hasOwnProperty("Botinator")) {
+    localStorage.Botinator = JSON.stringify({
+        "autowoot"      : true,
+        "autojoin"      : false,
+        "automehed"     : {},// media.id: reason
+        "automuted"     : [],// [media.id, ...]
+        "stats"         : {},
+        "user2ID"       : {},// username: [ID1, ID2]
+        "chatBan"       : [] // [/text1/, ...] (toString()ed cause cannot store regExps directly)
+    });
+} else {
+    if (get("autowoot") === undefined) {set("autowoot", true); }
+    if (get("autojoin") === undefined) {set("autojoin", false); }
+    if (get("automehed") === undefined) {set("automehed", {}); }
+    if (get("automuted") === undefined) {set("automuted", []); }
+    if (get("stats") === undefined) {set("stats", {}); }
+    if (get("user2ID") === undefined) {set("user2ID", {}); }
+    if (get("chatBan") === undefined) {set("chatBan", []); }
+}
+
+function unmute() {
+    var a = isMuted;
+    if (isMuted) {
+        artMute = isMuted = false;
+        API.setVolume(lastVol);
+    }
+    return a;
+}
+
+function mute() {
+    var a = isMuted;
+    if (!isMuted) {
+        lastVol = API.getVolume();
+        artMute = isMuted = true;
+        API.setVolume(0);
+    }
+    return !a;
+}
+
+function initUser(id) {
+    if (get("stats")[id] === undefined) {
+        rset(".stats[\"" + id + "\"]", {    "joined"    : 0,
+                        "songs": {  "played" :  0,
+                                    "skipped":  0},
+                        "chat"  : { "#"      :  0,
+                                    "last"   :  new Date(0),
+                                    "avglen" :  0
+                            },
+                        "votes" :
+                            {"woot" : 0,
+                            "meh"   : 0,
+                            "ratio" : 1
+                            }
+            });
+    }
+    if (get("user2ID")[API.getUser(id).username] === undefined) {
+        rset(".user2ID[\"" + API.getUser(id).username + "\"]", [id]);
+    } else if (get("user2ID")[API.getUser(id).username].indexOf(id) < 0) {
+        rset(".user2ID[\"" + API.getUser(id).username + "\"].push(\"" + id + "\")//");
+    }
+}
 
 function loadNextEpisode()
 {
@@ -258,14 +377,14 @@ function newChatCommand(data)
         // /j
         if (message[0] == '/j')
         {
-            if (autojoin)
+            if (get("autojoin") === true)
             {
-                autojoin = false;
+                set("autojoin", true);
                 API.chatLog("auto join disabled");
             }
             else
             {
-                autojoin = true;
+                set("autojoin", false);
                 API.chatLog("auto join enabled");
 
             }
@@ -275,15 +394,15 @@ function newChatCommand(data)
         // /w
         if (message[0] == '/w')
         {
-            if (autowoot)
+            if (get("autowoot") === true)
             {
-                autowoot = false;
+                set("autowoot", true);
                 API.chatLog("auto woot disabled");
 
             }
             else
             {
-                autowoot = true;
+                set("autowoot", false);
                 API.chatLog("auto woot enabled");
 
             }
