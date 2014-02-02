@@ -5,8 +5,6 @@ var botEnabled = true;
 var canterlockUsers = {},
     capslockrepetition = 2,
     capslockOn = false,
-    autowoot = true,
-    autojoin = true,
     history = API.getHistory(),
     nextSong,
     nextSongInHistory,
@@ -22,6 +20,14 @@ var nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
 {
     var nextEpisodeName = nextepisodeJSON.responseJSON.query.results.json.name;
 });
+
+function woot() {
+    $("#woot").click();
+}
+
+function meh() {
+    $("#meh").click();
+}
 
 setInterval(function () {
     isMuted = !API.getVolume();
@@ -141,6 +147,18 @@ function initUser(id) {
     }
 }
 
+function reset(clear) {
+    var u = API.getUsers(), i;
+    if (clear === true) { // Must be true, not anything else to clear...
+        set("stats", {});
+        set("user2ID", {});
+        set("automehed", {});
+    }
+    for (i = u.length; (i -= 1) > 0; i -= 0) {
+        initUser(u[i].id);
+    }
+}
+
 function loadNextEpisode()
 {
     nextepisodeJSON = $.getJSON(nextEpisodeAPISite, function ()
@@ -228,13 +246,21 @@ function checkHistory()
 
 function newChat(data)
 {
-    var message = data.message.toLowerCase().split(' ');
+    var message = data.message.replace(/&#39;/g, "'")
+                                .replace(/&amp;/g, "&")
+                                .replace(/&#34;/g, "\"")
+                                .replace(/&#59;/g, ";")
+                                .replace(/&lt;/g, "<")
+                                .replace(/&gt;/g, ">")
+                                .toLowerCase().split(' '),
+        mentioned = message.indexOf("@" + API.getUser().username) !== -1,
+        perm      = API.getUser(a.fromID).permission,
     console.log(message);
     if (botEnabled)
     {
         //Tells the source code for the bot
         //!source || !sourcecode
-        if (message[0] == '!source' || data.message.toLowerCase().indexOf('!sourcecode') > -1)
+        if (message.indexOf('!source') !== -1 || message.indexOf('!sourcecode') !== -1)
         {
             var sourceCodeSite = "https://github.com/Gbear605/Botinator";
             API.sendChat("The sourcecode for Botinator, gbear605's bot, can be found at " + sourceCodeSite);
@@ -242,7 +268,7 @@ function newChat(data)
 
         //Tells the next my little pony episode using Yahoo APIs and PonyCountdown APIs
         //!nextepisode || !nextep || !next
-        if (message[0] == '!nextepisode' || message[0] == '!nextep' || message[0] == '!next')
+        if (message.indexOf('!nextepisode') !== -1 || message.indexOf('!nextep') !== -1 || message.indexOf('!next') !== -1)
         {
             nextEpisode();
         }
@@ -253,71 +279,59 @@ function newChat(data)
             canterlock(data);
         }
 
-        //says how many points the user needs to get the next level of avatars
-        //!points || !pts
-        if (message[0] == '!points' || message[0] == '!pts')
-        {
-            API.sendChat("@" + data.from + " Botinator's point checker is not done yet. This is a placeholder command.");
-        }
-
         //disables joining
         //bouncers+
         //!disable
-        if ((message[0] == '!disable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!disable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))
+        if (message.indexOf('!disable') !== -1 && API.hasPermission(data.fromID, 1) && mentioned)
         {
-            autojoin = false;
+            set("autojoin", false);
             API.chatLog("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
         }
 
         //disables the bot
         //bouncers+
-        //!botdisable
-        if (((message[0] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botdisable' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)) || ((message[0] == '!botoff' && API.hasPermission(data.fromID, 1) && message[1] == ('@' + API.getUser().username)) || (message[1] == '!botoff' && API.hasPermission(data.fromID, 1) && message[0] == ('@' + API.getUser().username)))))
+        //!botdisable || !botoff
+        if ((message.indexOf("!botdisable") !== -1 || message.indexOf("!botoff") !== -1) && API.hasPermission(data.fromID, 1) && mentioned)
         {
             botDisable(false, data);
         }
 
         //says the bot's status
         //!status
-        if (
-            (message[0] == '!status' 
-            && (message[1] == ('@' + API.getUser().username) 
-                || message[1] == (API.getUser().username)
-                )
-            )
-             || 
-             (message[1] == '!status' 
-                && (message[0] == ('@' + API.getUser().username) 
-                    || message[0] == (API.getUser().username)
-                    )
-                )
-             )
+        if (message.indexOf("!status") !== -1 && mentioned)
         {
-            API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + autowoot + ", autojoin: " + autojoin);
+            API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
         }
 
         // http://istodaythedaymartymcflyarriveswhenhetravelstothefuture.com/
         // !marty || !mcfly || !future || !bttf || !2015
-        if(message[0] == "!marty" || message[0] == "!mcfly" || message[0] == "!future" || message[0] == "!bttf" || message[0] == "!2015")
+        if(message.indexOf('!marty') !== -1 || message.indexOf('!mcfly') !== -1 || message.indexOf('!future') !== -1 || message.indexOf('!bttf') !== -1 || message.indexOf('!2015') !== -1)
         {
             API.sendChat("@" + data.from + " http://istodaythedaymartymcflyarriveswhenhetravelstothefuture.com/");
         }
 
         //links http://answeranything.tumblr.com/
         // !answers || !answer
-        if(message[0] == "!answers" || message[0] == "!answer")
+        if(message.indexOf('!answers') !== -1 || message.indexOf('!answer') !== -1)
         {
             API.sendChat("@" + data.from + " http://answeranything.tumblr.com/");
         }
 
         //lmgtfy
         // !google [STUFF]
-        if(message[0] == "!google")
+        if(message.indexOf('!google') === 0)
         {
             var googleString = "";
             for(var i = 1; i < message.length; i++)
             {
-                googleString = googleString + message[i] + "+";
+                if(i != message.length-1)
+                {
+                    googleString = googleString + message[i] + "+";
+                }
+                else
+                {
+                    googleString = googleString + message[i];
+                }
             }
             API.sendChat("@" + data.from + " http://lmgtfy.com/?q=" + googleString);
         }
@@ -329,7 +343,7 @@ function newChat(data)
         //enables the bot
         //bouncers+
         //!enablebot
-        if (data.message.toLowerCase().indexOf('!enablebot') > -1 && API.hasPermission(data.fromID, 2))
+        if (message.indexOf('!enablebot') !== -1 > -1 && API.hasPermission(data.fromID, 2) && mentioned)
         {
             enable(false);
         }
@@ -481,11 +495,11 @@ function userLeft(user)
 function nextDJ(data)
 {
     var i;
-    if (autowoot)
+    if (get("autowoot") === true)
     {
-        $("#woot").click();
+        woot();
     }
-    if (autojoin)
+    if (get("autojoin") === true)
     {
         if (data.lastPlay.dj.id == API.getUser().id)
         {
