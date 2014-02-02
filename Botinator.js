@@ -514,7 +514,7 @@ function nextDJ(data)
         (get("automehed").hasOwnProperty(data.media.id) ? meh : woot)();
     }
 
-    if ((API.getWaitListPosition() === -1) && get("autojoin")) {
+    if (get("autojoin")) {
         join();
     }
 
