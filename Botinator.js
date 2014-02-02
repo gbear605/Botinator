@@ -259,7 +259,7 @@ function newChat(data)
                                 .toLowerCase().split(' '),
         mentioned = message.indexOf("@" + API.getUser().username) !== -1,
         perm      = API.getUser(data.fromID).permission;
-    console.log(message);
+    console.log("[" + data.chatID + "]" + message);
     if (botEnabled)
     {
         //Tells the source code for the bot
@@ -545,6 +545,11 @@ function voteUpdate(data)
     if (data.vote == -1)
     {
         API.chatLog(data.user.username + " mehed.");
+        statUp("meh", data.user.id);
+    }
+    else
+    {
+        statup("woot", data.user.id);
     }
 }
 
