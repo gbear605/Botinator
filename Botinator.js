@@ -468,6 +468,11 @@ function newChatCommand(data)
         {
             mute();
         }
+        if(message[0] == "/unmute")
+        {
+            unmute();
+        }
+
     }
 
     //enable bot
