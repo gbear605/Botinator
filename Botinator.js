@@ -397,12 +397,12 @@ function newChatCommand(data)
         {
             if (get("autojoin") === true)
             {
-                set("autojoin", true);
+                set("autojoin", false);
                 API.chatLog("auto join disabled");
             }
             else
             {
-                set("autojoin", false);
+                set("autojoin", true);
                 API.chatLog("auto join enabled");
 
             }
@@ -414,13 +414,13 @@ function newChatCommand(data)
         {
             if (get("autowoot") === true)
             {
-                set("autowoot", true);
+                set("autowoot", false);
                 API.chatLog("auto woot disabled");
 
             }
             else
             {
-                set("autowoot", false);
+                set("autowoot", true);
                 API.chatLog("auto woot enabled");
 
             }
