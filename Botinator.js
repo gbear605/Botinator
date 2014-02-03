@@ -485,6 +485,7 @@ function newChatCommand(data)
 
 function userJoined(user)
 {
+    initUser(user.id);
     if(user.relationship == 0)
     {
         API.chatLog(user.username + " joined the room.");
