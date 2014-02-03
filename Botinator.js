@@ -510,11 +510,11 @@ function nextDJ(data)
 {
     unmute();
     var i;
-    if (get("autowoot")) {
+    if (get("autowoot") === true) {
         (get("automehed").hasOwnProperty(data.media.id) ? meh : woot)();
     }
 
-    if (get("autojoin")) {
+    if (get("autojoin") === true) {
         join();
     }
 
