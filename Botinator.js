@@ -12,7 +12,9 @@ var canterlockUsers = {},
     isMuted = !lastVol,
     artMute = false,
     boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav'),
-    nextEpisodeAPISite = "http://api.ponycountdown.com/next";
+    nextEpisodeAPISite = "http://api.ponycountdown.com/next",
+    autowoot = true,
+    autojoin = true;
 
 nextEpisodeAPISite = "http://query.yahooapis.com/v1/public/yql?q=select * from json where url=\"" + nextEpisodeAPISite + "\"&format=json";
 
@@ -29,138 +31,19 @@ function meh() {
     $("#meh").click();
 }
 
-setInterval(function () {
-    isMuted = !API.getVolume();
-    if (!isMuted) {
-        artMute = isMuted = false;
-    }
-    if (!artMute) {
-        lastVol = API.getVolume();
-    }
-}, 5000);
-
-function rset(expr, value) {
-    var a = (value || true) && JSON.parse(localStorage.Botinator);
-    eval("a" + expr + " = value;");
-    localStorage.Botinator = JSON.stringify(a);
-}
-
-function get(prop) {
-    return JSON.parse(localStorage.Botinator)[prop];
-}
-
-function set(prop, value) {
-    var a = JSON.parse(localStorage.Botinator);
-    a[prop] = value;
-    localStorage.Botinator = JSON.stringify(a);
-}
-
-function statUp(e, t) {
-    var n = JSON.parse(localStorage.Botinator);
-    switch (e) {
-    case "join":
-    case "joined":
-        n.stats[t].joined += 1;
-        break;
-    case "play":
-    case "played":
-    case "djed":
-        n.stats[t].songs.played += 1;
-        break;
-    case "skip":
-    case "skipped":
-        n.stats[t].songs.skipped += 1;
-        break;
-    case "woot":
-    case "wooted":
-        n.stats[t].votes.ratio = (n.stats[t].votes.woot += 1) / (n.stats[t].votes.meh + n.stats[t].votes.woot);
-        break;
-    case "meh":
-    case "mehed":
-        n.stats[t].votes.ratio = n.stats[t].votes.woot / (n.stats[t].votes.woot + (n.stats[t].votes.meh += 1));
-        break;
-    default:
-        console.error("statUp(): unknown stat \"" + e + "\"");
-    }
-    localStorage.Botinator = JSON.stringify(n);
-}
-
-if (!localStorage.hasOwnProperty("Botinator")) {
-    localStorage.Botinator = JSON.stringify({
-        "autowoot"      : true,
-        "autojoin"      : true,
-        "automehed"     : {},// media.id: reason
-        "automuted"     : [],// [media.id, ...]
-        "stats"         : {},
-        "user2ID"       : {},// username: [ID1, ID2]
-        "chatBan"       : [] // [/text1/, ...] (toString()ed cause cannot store regExps directly)
-    });
-} else {
-    if (get("autowoot") === undefined) {set("autowoot", true); }
-    if (get("autojoin") === undefined) {set("autojoin", false); }
-    if (get("automehed") === undefined) {set("automehed", {}); }
-    if (get("automuted") === undefined) {set("automuted", []); }
-    if (get("stats") === undefined) {set("stats", {}); }
-    if (get("user2ID") === undefined) {set("user2ID", {}); }
-    if (get("chatBan") === undefined) {set("chatBan", []); }
-}
-
 function unmute() {
-    var a = isMuted;
-    if (isMuted) {
-        artMute = isMuted = false;
-        API.setVolume(lastVol);
-    }
-    return a;
+    isMuted = false;
+    API.setVolume(lastVol);
 }
 
 function mute() {
-    var a = isMuted;
-    if (!isMuted) {
-        lastVol = API.getVolume();
-        artMute = isMuted = true;
-        API.setVolume(0);
-    }
-    return !a;
+    lastVol = API.getVolume();
+    isMuted = true;
+    API.setVolume(0);
 }
 
 function join() {
     API.djJoin();
-}
-
-function initUser(id) {
-    if (get("stats")[id] === undefined) {
-        rset(".stats[\"" + id + "\"]", {    "joined"    : 0,
-                        "songs": {  "played" :  0,
-                                    "skipped":  0},
-                        "chat"  : { "#"      :  0,
-                                    "last"   :  new Date(0),
-                                    "avglen" :  0
-                            },
-                        "votes" :
-                            {"woot" : 0,
-                            "meh"   : 0,
-                            "ratio" : 1
-                            }
-            });
-    }
-    if (get("user2ID")[API.getUser(id).username] === undefined) {
-        rset(".user2ID[\"" + API.getUser(id).username + "\"]", [id]);
-    } else if (get("user2ID")[API.getUser(id).username].indexOf(id) < 0) {
-        rset(".user2ID[\"" + API.getUser(id).username + "\"].push(\"" + id + "\")//");
-    }
-}
-
-function reset(clear) {
-    var u = API.getUsers(), i;
-    if (clear === true) { // Must be true, not anything else to clear...
-        set("stats", {});
-        set("user2ID", {});
-        set("automehed", {});
-    }
-    for (i = u.length; (i -= 1) > 0; i -= 0) {
-        initUser(u[i].id);
-    }
 }
 
 function loadNextEpisode()
@@ -288,7 +171,7 @@ function newChat(data)
         //!disable
         if (message.indexOf('!disable') !== -1 && API.hasPermission(data.fromID, 1) && mentioned)
         {
-            set("autojoin", false);
+            autojoin = false
             API.chatLog("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
         }
 
@@ -395,14 +278,14 @@ function newChatCommand(data)
         // /j
         if (message[0] == '/j')
         {
-            if (get("autojoin") === true)
+            if (autojoin)
             {
-                set("autojoin", false);
+                autojoin = false;
                 API.chatLog("auto join disabled");
             }
             else
             {
-                set("autojoin", true);
+                autojoin = true;
                 API.chatLog("auto join enabled");
 
             }
@@ -412,17 +295,16 @@ function newChatCommand(data)
         // /w
         if (message[0] == '/w')
         {
-            if (get("autowoot") === true)
+            if (autowoot)
             {
-                set("autowoot", false);
+                autowoot = false;
                 API.chatLog("auto woot disabled");
 
             }
             else
             {
-                set("autowoot", true);
+                autowoot = true;
                 API.chatLog("auto woot enabled");
-
             }
         }
 
@@ -485,7 +367,6 @@ function newChatCommand(data)
 
 function userJoined(user)
 {
-    initUser(user.id);
     if(user.relationship == 0)
     {
         API.chatLog(user.username + " joined the room.");
@@ -511,22 +392,12 @@ function nextDJ(data)
 {
     unmute();
     var i;
-    if (get("autowoot") === true) {
-        (get("automehed").hasOwnProperty(data.media.id) ? meh : woot)();
+    if (autowoot) {
+        woot();
     }
 
-    if (get("autojoin") === true) {
+    if (autojoin) {
         join();
-    }
-
-    if (get("automuted").indexOf(data.media.id) !== -1) {
-        if (!isMuted) {
-            setTimeout(mute, 3500);
-        }
-    } else {
-        if (artMute) {
-            setTimeout(unmute, 3500);
-        }
     }
 
     API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author);
@@ -546,11 +417,9 @@ function voteUpdate(data)
     if (data.vote == -1)
     {
         API.chatLog(data.user.username + " mehed.");
-        statUp("meh", data.user.id);
     }
     else
     {
-        statUp("woot", data.user.id);
     }
 }
 
