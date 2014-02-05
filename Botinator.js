@@ -169,7 +169,16 @@ function newChat(data)
         //disables joining
         //bouncers+
         //!disable
-        if (message.indexOf('!disable') !== -1 && mentioned && API.hasPermission(data.fromID, 1) )
+        if (autojoin && message.indexOf('!disable') !== -1 && mentioned && API.hasPermission(data.fromID, 1) )
+        {
+            autojoin = false
+            API.sendChat("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
+        }
+
+        //disables joining
+        //bouncers+
+        //!disable
+        if (autojoin && message.indexOf('!disableall') !== -1 && API.hasPermission(data.fromID, 1) )
         {
             autojoin = false
             API.sendChat("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
