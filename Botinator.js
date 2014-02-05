@@ -169,7 +169,7 @@ function newChat(data)
         //disables joining
         //bouncers+
         //!disable
-        if (message.indexOf('!disable') !== -1 && API.hasPermission(data.fromID, 1) && mentioned)
+        if (((message.indexOf('!disable') !== -1 && mentioned) || message.indexOf('!disableall') !== 1 ) && API.hasPermission(data.fromID, 1) )
         {
             autojoin = false
             API.chatLog("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
