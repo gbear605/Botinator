@@ -142,7 +142,7 @@ function newChat(data)
                                 .toLowerCase().split(' '),
         mentioned = message.indexOf("@" + API.getUser().username) !== -1,
         perm      = API.getUser(data.fromID).permission;
-    console.log("[" + data.from + "]" + message);
+    console.log("Botinator: " + "[" + data.from + "]" + message);
     if (botEnabled)
     {
         //Tells the source code for the bot
@@ -250,7 +250,7 @@ function newChat(data)
 function newChatCommand(data)
 {
     var message = data.toLowerCase().split(' ');
-    console.log(message);
+    console.log("Botinator: " + message);
     if (botEnabled)
     {
         //disable bot
