@@ -248,7 +248,7 @@ function newChatCommand(data)
         // /disable
         if (message[0] == "/disable")
         {
-            botDisable(true);
+            botDisable(true, data);
         }
 
         //turn off canterlock checking
