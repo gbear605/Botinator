@@ -412,7 +412,7 @@ function nextDJ(data)
     var minutes = Math.floor(data.media.duration / 60);
     var seconds = data.media.duration - (minutes * 60);
 
-    API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + " is " + minutes + " minutes long and " + seconds + " seconds long.");
+    API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
 
     for (i = 0; i < history.length; i++)
     {
