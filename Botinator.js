@@ -324,6 +324,7 @@ function newChatCommand(data)
             var staffList = API.getStaff();
             var modString = "";
             var i;
+            var additionalText = "";
             for (i = 0; i < staffList.length; i++)
             {
                 if (staffList[i].permission != 1 && staffList[i].status != 1)
@@ -331,9 +332,17 @@ function newChatCommand(data)
                     modString = modString + " @" + staffList[i].username;
                 }
             }
+            
             if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
             {
-                API.sendChat(modString);
+                if(message.length > 1)
+                {
+                    for(i = 2; i < message.length; i++)
+                    {
+                        additionalText = additionalText + " " + message[i];
+                    }
+                }
+                API.sendChat(modString + " !alert");
             }
             else
             {
@@ -413,6 +422,11 @@ function nextDJ(data)
     var seconds = data.media.duration - (minutes * 60);
 
     API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
+
+    if(data.media.duration > 600)
+    {
+        boop.play();
+    }
 
     for (i = 0; i < history.length; i++)
     {
