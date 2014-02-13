@@ -209,6 +209,7 @@ function newChat(data)
         }
 
         // http://istodaythedaymartymcflyarriveswhenhetravelstothefuture.com/
+        //Such an awesome command
         // !marty || !mcfly || !future || !bttf || !2015
         if(message.indexOf('!marty') !== -1 || message.indexOf('!mcfly') !== -1 || message.indexOf('!future') !== -1 || message.indexOf('!bttf') !== -1 || message.indexOf('!2015') !== -1)
         {
