@@ -342,14 +342,6 @@ function newChatCommand(data)
                     modString = modString + " @" + staffList[i].username;
                 }
             }
-
-            if(message.length > 1)
-            {
-                for(i = 2; i < message.length; i++)
-                {
-                    additionalText = additionalText + " " + message[i];
-                }
-            }
             
             if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
             {
