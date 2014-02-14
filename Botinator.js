@@ -346,7 +346,16 @@ function newChatCommand(data)
 
             if(message.length > 1)
             {
-                for(i = 2; i < message.length; i++)
+                var l;
+                if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
+                {
+                    l = 2;
+                }
+                else
+                {
+                    l = 1;
+                }
+                for(var i = l; i < message.length; i++)
                 {
                     additionalText = additionalText + " " + messageTrue[i];
                 }
