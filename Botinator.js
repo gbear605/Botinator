@@ -260,6 +260,7 @@ function newChat(data)
 function newChatCommand(data)
 {
     var message = data.toLowerCase().split(' ');
+    var messageTrue = data.split(' ');
     console.log("Botinator: " + message);
     if (botEnabled)
     {
@@ -342,16 +343,18 @@ function newChatCommand(data)
                     modString = modString + " @" + staffList[i].username;
                 }
             }
+
+            if(message.length > 1)
+            {
+                for(i = 2; i < message.length; i++)
+                {
+                    additionalText = additionalText + " " + messageTrue[i];
+                }
+            }
             
             if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
             {
-                if(message.length > 1)
-                {
-                    for(i = 2; i < message.length; i++)
-                    {
-                        additionalText = additionalText + " " + message[i];
-                    }
-                }
+
                 API.sendChat(modString + " !alert" + additionalText);
             }
             else
