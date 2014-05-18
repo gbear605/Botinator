@@ -34,6 +34,7 @@ function meh() {
 
 function unmute() {
     isMuted = false;
+    isMutedOnce = false;
     API.setVolume(lastVol);
 }
 
