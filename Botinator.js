@@ -10,6 +10,7 @@ var canterlockUsers = {},
     nextSongInHistory,
     lastVol = API.getVolume(),
     isMuted = !lastVol,
+    inMutedOnce = false,
     artMute = false,
     boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav'),
     nextEpisodeAPISite = "http://api.ponycountdown.com/next",
@@ -39,6 +40,14 @@ function unmute() {
 function mute() {
     lastVol = API.getVolume();
     isMuted = true;
+    isMutedOnce = false;
+    API.setVolume(0);
+}
+
+function muteOnce() {
+    lastVol = API.getVolume();
+    isMuted = true;
+    isMutedOnce = true;
     API.setVolume(0);
 }
 
@@ -390,6 +399,10 @@ function newChatCommand(data)
         {
             mute();
         }
+        if(message[0] == "/muteonce")
+        {
+            muteOnce();
+        }
         if(message[0] == "/unmute")
         {
             unmute();
@@ -430,7 +443,10 @@ function userLeft(user)
 
 function nextDJ(data)
 {
-    unmute();
+    if(muteOnce)
+    {
+        unmute();
+    }
     var i;
     if (autowoot) {
         woot();
