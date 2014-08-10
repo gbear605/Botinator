@@ -122,16 +122,20 @@ function botDisable(privateCommand, data)
     privateCommand = null;
 }
 
-function checkHistory()
+function checkHistory(command)
 {
     var i;
     nextSongInHistory = false;
     nextSong = API.getNextMedia();
     if(nextSong.inHistory == true)
     {
-        API.chatLog("Your next song is in history at place " + place + "!");
+        API.chatLog("Your next song is in history!");
         nextSongInHistory = true;
         boop.play();
+    }
+    else if(command)
+    {
+        API.chatLog("Your next song is not in history.")
     }
 }
 
@@ -295,7 +299,7 @@ function newChatCommand(data)
         // /nextsong
         if (message[0] == '/nextsong')
         {
-            checkHistory();
+            checkHistory(true);
         }
 
         //disable autojoin
@@ -461,15 +465,12 @@ function nextDJ(data)
         boop.play();
     }
 
-    for (i = 0; i < history.length; i++)
+    if(data.inHistory == true)
     {
-        if (data.media.cid == history[i].media.cid)
-        {
-            API.chatLog("The current song is in history at place " + i + "!");
-            boop.play();
-        }
+        API.chatLog("The current song is in history at place " + i + "!");
+        boop.play();
     }
-    checkHistory();
+    checkHistory(false);
 }
 
 function voteUpdate(data)
