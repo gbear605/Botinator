@@ -125,19 +125,13 @@ function botDisable(privateCommand, data)
 function checkHistory()
 {
     var i;
-    history = API.getHistory();
     nextSongInHistory = false;
     nextSong = API.getNextMedia();
-    for (i = 0; i < history.length-1; i++)
+    if(nextSong.inHistory == true)
     {
-        if (nextSong.media.cid == history[i].media.cid)
-        {
-            place = i+1;
-            API.chatLog("Your next song is in history at place " + place + "!");
-            nextSongInHistory = true;
-            boop.play();
-        }
-
+        API.chatLog("Your next song is in history at place " + place + "!");
+        nextSongInHistory = true;
+        boop.play();
     }
 }
 
