@@ -40,7 +40,7 @@ function checkHistory(command)
 
 function newChat(data)
 {
-	if(data.type == "message)
+	if(data.type == "message")
 	{
 		var message = data.message.replace(/&#39;/g, "'")
                                 	  .replace(/&amp;/g, "&")
