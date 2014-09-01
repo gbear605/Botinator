@@ -273,21 +273,21 @@ function nextDJ(data)
 	if(autowoot) {
 		woot();
 	}
-	if(autojoin)
+	if(autojoin) {
 		join();
 	}
 
 	var minutes = Math.floor(data.media.duration / 60);
-    	var seconds = data.media.duration - (minutes * 60);
+    var seconds = data.media.duration - (minutes * 60);
 
-    	API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
+    API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
 
 	if(data.media.duration > 600)
-    	{
+    {
         	boop.play();
-    	}
+    }
 
-    	checkHistory(false);
+    checkHistory(false);
 }
 
 function voteUpdate(data)
