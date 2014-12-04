@@ -142,7 +142,7 @@ function newCommand(data)
 		var additionalText = "";
 		for (i = 0; i < staffList.length; i++)
 		{
-			if (staffList[i].permission != 1 && staffList[i].status != 1)
+			if (staffListstaffList[i].role != API.ROLE.DJ && staffList[i].status == API.STATUS.AVAILABLE && staffList[i].username != "Bot")
 			{
 			    modString = modString + " @" + staffList[i].username;
 			}
