@@ -40,52 +40,49 @@ function checkHistory(command)
 
 function newChat(data)
 {
-	if(data.type == "message")
-	{
-		var message = data.message.replace(/&#39;/g, "'")
-                                  .replace(/&amp;/g, "&")
-                                  .replace(/&#34;/g, "\"")
-                                  .replace(/&#59;/g, ";")
-                                  .replace(/&lt;/g, "<")
-                                  .replace(/&gt;/g, ">")
-                                  .toLowerCase().split(' '),
-        	mentioned = message.indexOf("@" + API.getUser().username) !== -1,
-        	perm      = API.getUser(data.fromID).permission;
-    	
+	var message = data.message.replace(/&#39;/g, "'")
+                          .replace(/&amp;/g, "&")
+                          .replace(/&#34;/g, "\"")
+                          .replace(/&#59;/g, ";")
+                          .replace(/&lt;/g, "<")
+                          .replace(/&gt;/g, ">")
+                          .toLowerCase().split(' '),
+	mentioned = message.indexOf("@" + API.getUser().username) !== -1,
+	perm      = API.getUser(data.uid).permission;
+    
     	console.log("Botinator: " + "[" + data.uid + "]" + message);
 
-		if(botEnabled)
-		{
-			//disables joining
-        	//bouncers+
-        	//!disable
-        	if (message.indexOf('!disable') !== -1 && mentioned && API.hasPermission(data.fromID, 1) )
-        	{
-            	if(autojoin)
-            	{
-                	autojoin = false
-               		API.sendChat("@" + data.from + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
-            	}
-            	else
-            	{
-                	API.sendChat("@" + data.from + " Botinator auto join was already disabled. To disable the bot, use !botdisable or !botoff");
-            	}
-        	}
-			
-			//disables the bot
-        	//bouncers+
-        	//!botdisable || !botoff
-        	if ((message.indexOf("!botdisable") !== -1 || message.indexOf("!botoff") !== -1) && API.hasPermission(data.fromID, 1) && mentioned)
-       		{
-        		botEnabled = false;
-        	}
-			
-			//says the bot's status
-        	//!status
-        	if (message.indexOf("!status") !== -1 && mentioned)
-        	{
-        		API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
-			}
+	if(botEnabled)
+	{
+		//disables joining
+	//bouncers+
+	//!disable
+	if (message.indexOf('!disable') !== -1 && mentioned && API.hasPermission(data.uid, 1) )
+	{
+    	if(autojoin)
+    	{
+        	autojoin = false
+       		API.sendChat("@" + data.un + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
+    	}
+    	else
+    	{
+        	API.sendChat("@" + data.un + " Botinator auto join was already disabled. To disable the bot, use !botdisable or !botoff");
+    	}
+	}
+		
+		//disables the bot
+	//bouncers+
+	//!botdisable || !botoff
+	if ((message.indexOf("!botdisable") !== -1 || message.indexOf("!botoff") !== -1) && API.hasPermission(data.fromID, 1) && mentioned)
+       	{
+		botEnabled = false;
+	}
+		
+		//says the bot's status
+	//!status
+	if (message.indexOf("!status") !== -1 && mentioned)
+	{
+		API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
 		}
 	}
 }
