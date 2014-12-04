@@ -73,7 +73,6 @@ function newChat(data)
 	if (message.indexOf("!status") !== -1 && mentioned)
 	{
 		API.sendChat("@" + data.from + " - Status: Running Botinator (Gbear605's script), autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
-		}
 	}
 }
 
