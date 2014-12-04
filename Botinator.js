@@ -30,27 +30,27 @@ function checkHistory(command)
 	if(API.getNextMedia().inHistory == true)
 	{
 	    API.chatLog("Your next song is in history!");
-    	boop.play();
+    		boop.play();
 	}
 	else if(command)
 	{
-    	API.chatLog("Your next song is not in history.")
+    		API.chatLog("Your next song is not in history.")
 	}
 }
 
 function newChat(data)
 {
 	var message = data.message.replace(/&#39;/g, "'")
-                          .replace(/&amp;/g, "&")
-                          .replace(/&#34;/g, "\"")
-                          .replace(/&#59;/g, ";")
-                          .replace(/&lt;/g, "<")
-                          .replace(/&gt;/g, ">")
-                          .toLowerCase().split(' '),
+                          	  .replace(/&amp;/g, "&")
+                          	  .replace(/&#34;/g, "\"")
+                          	  .replace(/&#59;/g, ";")
+                          	  .replace(/&lt;/g, "<")
+                          	  .replace(/&gt;/g, ">")
+                          	  .toLowerCase().split(' '),
 	mentioned = message.indexOf("@" + API.getUser().username) !== -1,
 	perm      = API.getUser(data.uid).permission;
     
-    	console.log("Botinator: " + "[" + data.uid + "]" + message);
+    	console.log("Botinator: " + "[" + data.un + "]" + message);
 
 	if(botEnabled)
 	{
@@ -62,27 +62,19 @@ function newChat(data)
     	if(autojoin)
     	{
         	autojoin = false
-       		API.sendChat("@" + data.un + " Botinator auto join disabled. To disable the bot, use !botdisable or !botoff");
+       		API.sendChat("@" + data.un + " Botinator auto join disabled.");
     	}
     	else
     	{
-        	API.sendChat("@" + data.un + " Botinator auto join was already disabled. To disable the bot, use !botdisable or !botoff");
+        	API.sendChat("@" + data.un + " Botinator auto join was already disabled.");
     	}
 	}
 		
-		//disables the bot
-	//bouncers+
-	//!botdisable || !botoff
-	if ((message.indexOf("!botdisable") !== -1 || message.indexOf("!botoff") !== -1) && API.hasPermission(data.fromID, 1) && mentioned)
-       	{
-		botEnabled = false;
-	}
-		
-		//says the bot's status
+	//says the bot's status
 	//!status
 	if (message.indexOf("!status") !== -1 && mentioned)
 	{
-		API.sendChat("@" + data.from + " - Status: Running Botinator, autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
+		API.sendChat("@" + data.from + " - Status: Running Botinator (Gbear605's script), autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
 		}
 	}
 }
@@ -92,126 +84,146 @@ function newCommand(data)
 	var message = data.toLowerCase().split(' ');
 	var messageTrue = data.split(' ');
 	console.log("Botinator: " + message);
-	if(botEnabled)
+
+	//Displays a help message
+	// /man || /help || /commands
+	if (message[0] == "/man" || message[0] == "/help" || message[0] == "/commands")
 	{
-		//disable bot
-		// /disable
-		if (message[0] == "/disable")
-        	{
-            		botEnabled = false
-        	}
-
-		//check if next song is in history
-        	// /nextsong
-        	if (message[0] == '/nextsong')
-        	{
-        		checkHistory(true);
-        	}
-		
-		//disable autojoin
-        	// /j
-        	if (message[0] == '/j')
-        	{
-        		if (autojoin)
-        		{
-            		autojoin = false;
-            		API.chatLog("auto join disabled");
-        		}
-        		else
-        		{
-            		autojoin = true;
-            		API.chatLog("auto join enabled");
-        		}
-        	}
-
-		//disable autowoot
-        	// /w
-        	if (message[0] == '/w')
-			{
-	    		if (autowoot)
-	    		{
-	        		autowoot = false;
-	        		API.chatLog("auto woot disabled");
-	    		}
-	    		else
-	    		{
-	        		autowoot = true;
-	        		API.chatLog("auto woot enabled");
-	    		}
-        	}
-
-		//prepares an @ message to all the mods
-    	// /mod || /mods
-    	if (message[0] == "/mod" || message[0] == "/mods")
-    	{
-    		var staffList = API.getStaff();
-    		var modString = "";
-    		var i;
-    		var additionalText = "";
-    		for (i = 0; i < staffList.length; i++)
-    		{
-        		if (staffList[i].permission != 1 && staffList[i].status != 1)
-        		{
-            		modString = modString + " @" + staffList[i].username;
-        		}
-    		}
-
-    		if(message.length > 1)
-    		{
-        		var l;
-        		if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
-        		{
-            		l = 2;
-        		}
-        		else
-        		{
-            		l = 1;
-        		}
-        		for(var i = l; i < message.length; i++)
-        		{
-           			additionalText = additionalText + " " + messageTrue[i];
-        		}
-    		}
-    
-    		if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
-    		{
-        		API.sendChat(modString + " !alert" + additionalText);
-    		}
-    		else
-    		{
-        		API.chatLog(modString + " !alert" + additionalText);
-    		}
-    	}
-		
-		//Boop!
-    	// /boop
-    	if(message[0] == "/boop")
-    	{
-        	boop.play();
-    	}
-
-		if(message[0] == "/mute")
-        {
-           	mute();
-        }
-
-        if(message[0] == "/unmute")
-        {
-            unmute();
-        }
-
-		if(message[0] == "/join")
+		API.chatLog("/nextsong - checks if your next song is in history");
+		API.chatLog("/j - toggles autojoin");
+		API.chatLog("/w - toggles autowoot");
+		API.chatLog("/mod || /mods [all] [message]");
+		API.chatLog("prepares or sends an @ message to all the mods (decision based on [all] toggle)");
+		API.chatLog("/mute - toggles mute");
+		API.chatLog("/join - joins the waitlist");
+		API.chatLog("/woot - woots");
+		API.chatLog("/meh - mehs");
+		API.chatLog("/boop - Boop!");
+	}
+	
+	//check if next song is in history
+	// /nextsong
+	if (message[0] == '/nextsong')
+	{
+		checkHistory(true);
+	}
+	
+	//toggle autojoin
+	// /j
+	if (message[0] == '/j')
+	{
+		if (autojoin)
 		{
-			join();
+	    		autojoin = false;
+	    		API.chatLog("auto join disabled");
+		}
+		else
+		{
+	    		autojoin = true;
+	    		API.chatLog("auto join enabled");
 		}
 	}
-
-    //enable bot
-    // /enable
-    if (message[0] == '/enable')
-    {
-    	enable(true);
-    }
+	
+	//toggle autowoot
+	// /w
+	if (message[0] == '/w')
+	{
+	    	if (autowoot)
+	    	{
+			autowoot = false;
+			API.chatLog("auto woot disabled");
+	    	}
+	    	else
+	    	{
+			autowoot = true;
+			API.chatLog("auto woot enabled");
+	    	}
+	}
+	
+	//prepares or sends an @ message to all the mods (decision based on [all] toggle)
+	// /mod || /mods [all] [message]
+	if (message[0] == "/mod" || message[0] == "/mods")
+	{
+		var staffList = API.getStaff();
+		var modString = "";
+		var i;
+		var additionalText = "";
+		for (i = 0; i < staffList.length; i++)
+		{
+			if (staffList[i].permission != 1 && staffList[i].status != 1)
+			{
+			    modString = modString + " @" + staffList[i].username;
+			}
+		}
+		
+		if(message.length > 1)
+		{
+			var l;
+			if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
+			{
+			    	l = 2;
+			}
+			else
+			{
+				l = 1;
+			}
+			for(var i = l; i < message.length; i++)
+			{
+		   		additionalText = additionalText + " " + messageTrue[i];
+			}
+		}
+		
+		if (message[1] == "true" || message[1] == "all" || message[1] == "public" || message[1] == "chat")
+		{
+			API.sendChat(modString + " !alert" + additionalText);
+		}
+		else
+		{
+			API.chatLog(modString + " !alert" + additionalText);
+		}
+	}
+		
+	//Boop!
+	// /boop
+	if(message[0] == "/boop")
+	{
+		boop.play();
+	}
+	
+	//Toggles mute
+	// /mute
+	if(message[0] == "/mute")
+	{
+	   	if (isMuted)
+	    	{
+			unmute();
+	    	}
+	    	else
+	    	{
+			mute();
+	    	}
+	}
+	
+	//Joins DJ List
+	// /join
+	if(message[0] == "/join")
+	{
+		join();
+	}
+	
+	//Mehs
+	// /meh
+	if(message[0] == "/meh")
+	{
+		meh();
+	}
+	
+	//Woots
+	// /woot
+	if(message[0] == "/woot")
+	{
+		woot();
+	}
 }
 
 function userJoined(user)
