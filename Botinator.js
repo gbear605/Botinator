@@ -29,7 +29,7 @@ function checkHistory(command)
 {
 	if(API.getNextMedia().inHistory == true)
 	{
-	    API.chatLog("Your next song is in history!");
+	    	API.chatLog("Your next song is in history!");
     		boop.play();
 	}
 	else if(command)
@@ -52,22 +52,20 @@ function newChat(data)
     
     	console.log("Botinator: " + "[" + data.un + "]" + message);
 
-	if(botEnabled)
-	{
-		//disables joining
+	//disables joining
 	//bouncers+
 	//!disable
 	if (message.indexOf('!disable') !== -1 && mentioned && API.hasPermission(data.uid, 1) )
 	{
-    	if(autojoin)
-    	{
-        	autojoin = false
-       		API.sendChat("@" + data.un + " Botinator auto join disabled.");
-    	}
-    	else
-    	{
-        	API.sendChat("@" + data.un + " Botinator auto join was already disabled.");
-    	}
+    		if(autojoin)
+    		{
+        		autojoin = false
+       			API.sendChat("@" + data.un + " Botinator auto join disabled.");
+    		}
+    		else
+    		{
+        		API.sendChat("@" + data.un + " Botinator auto join was already disabled.");
+    		}
 	}
 		
 	//says the bot's status
@@ -86,19 +84,14 @@ function newCommand(data)
 	console.log("Botinator: " + message);
 
 	//Displays a help message
-	// /man || /help || /commands
-	if (message[0] == "/man" || message[0] == "/help" || message[0] == "/commands")
+	// /man || /? || /commands
+	if (message[0] == "/man" || message[0] == "/?" || message[0] == "/commands")
 	{
 		API.chatLog("/nextsong - checks if your next song is in history");
 		API.chatLog("/j - toggles autojoin");
 		API.chatLog("/w - toggles autowoot");
-		API.chatLog("/mod || /mods [all] [message]");
-		API.chatLog("prepares or sends an @ message to all the mods (decision based on [all] toggle)");
 		API.chatLog("/mute - toggles mute");
-		API.chatLog("/join - joins the waitlist");
-		API.chatLog("/woot - woots");
-		API.chatLog("/meh - mehs");
-		API.chatLog("/boop - Boop!");
+		API.chatLog("/mod || /mods [all] [message] - prepares or sends an @ message to all the mods (decision based on [all] toggle)");
 	}
 	
 	//check if next song is in history
@@ -238,22 +231,24 @@ function userLeft(user)
 
 function nextDJ(data)
 {
-	if(autowoot) {
+	if(autowoot) 
+	{
 		woot();
 	}
-	if(autojoin) {
+	if(autojoin) 
+	{
 		join();
 	}
 
 	var minutes = Math.floor(data.media.duration / 60);
-    var seconds = data.media.duration - (minutes * 60);
+	var seconds = data.media.duration - (minutes * 60);
 
-    API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
+    	API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
 
 	if(data.media.duration > 600)
-    {
-        boop.play();
-    }
+	{
+    		boop.play();
+	}
 
     checkHistory(false);
 }
