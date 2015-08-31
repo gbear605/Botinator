@@ -25,17 +25,10 @@ function unmute() {
 
 function join() { API.djJoin(); }
 
-function checkHistory(command)
+function checkHistory()
 {
-	if(API.getNextMedia().inHistory == true)
-	{
-	    	API.chatLog("Your next song is in history!");
-    		boop.play();
-	}
-	else if(command)
-	{
-    		API.chatLog("Your next song is not in history.")
-	}
+	API.chatLog("Your next song is in history!");
+    	boop.play();
 }
 
 function newChat(data)
@@ -86,18 +79,10 @@ function newCommand(data)
 	// /man || /? || /commands
 	if (message[0] == "/man" || message[0] == "/?" || message[0] == "/commands")
 	{
-		API.chatLog("/nextsong - checks if your next song is in history");
 		API.chatLog("/j - toggles autojoin");
 		API.chatLog("/w - toggles autowoot");
 		API.chatLog("/mute - toggles mute");
 		API.chatLog("/mod || /mods [all] [message] - prepares or sends an @ message to all the mods (decision based on [all] toggle)");
-	}
-	
-	//check if next song is in history
-	// /nextsong
-	if (message[0] == '/nextsong')
-	{
-		checkHistory(true);
 	}
 	
 	//toggle autojoin
@@ -244,12 +229,7 @@ function nextDJ(data)
 
     	API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
 
-	if(data.media.duration > 600)
-	{
-    		boop.play();
-	}
-
-    checkHistory(false);
+    	checkHistory();
 }
 
 function voteUpdate(data)
