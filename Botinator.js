@@ -24,12 +24,6 @@ function unmute() {
 
 function join() { API.djJoin(); }
 
-function checkHistory()
-{
-	API.chatLog("Your next song is in history!");
-    	boop.play();
-}
-
 function newChat(data)
 {
 	var message = data.message.replace(/&#39;/g, "'")
@@ -231,8 +225,6 @@ function nextDJ(data)
 	var seconds = data.media.duration - (minutes * 60);
 
     	API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
-
-    	checkHistory();
 }
 
 function voteUpdate(data)
