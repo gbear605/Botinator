@@ -40,7 +40,7 @@ function newChat(data)
 	for (var i = 0; i < message.length; i++) {
 	   textOfMessage += message[i] + ' ';
 	}
-    	console.log("Botinator: " + "[" + data.un + "]" + textOfMessage);
+    	console.log("Botinator: " + "[" + data.un + "] " + textOfMessage);
 
 	//disables joining
 	//bouncers+
