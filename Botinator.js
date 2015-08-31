@@ -42,7 +42,7 @@ function newChat(data)
 	mentioned = message.indexOf("@" + API.getUser().username) !== -1,
 	perm      = API.getUser(data.uid).permission;
     
-    	console.log("Botinator: " + "[" + data.un + "]" + message);
+    	console.log("Botinator: " + "[" + data.un + "]" + message.replace(","," "));
 
 	//disables joining
 	//bouncers+
