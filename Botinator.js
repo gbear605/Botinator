@@ -1,6 +1,5 @@
 var botEnabled = true,
 	history = API.getHistory(),
-	nextSong,
 	lastVolume = API.getVolume(),
 	isMuted,
 	boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav'),
