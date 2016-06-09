@@ -24,6 +24,8 @@ function unmute() {
 
 function join() { API.djJoin(); }
 
+var lastCheckName = "";
+
 function newChat(data)
 {
 	var message = data.message.replace(/&#39;/g, "'")
@@ -43,7 +45,7 @@ function newChat(data)
 			if (Notification.permission !== "granted")
 				Notification.requestPermission();
 			else {
-				var notification = new Notification('Alert Bot', {body: "You've been pinged by " + data.un + "!",});
+				var notification = new Notification('Botinator', {body: "You've been pinged by " + data.un + "!",});
 				notification.onclick = function () {
 					$('#chat-input-field').val("@" + data.un);
 				};
@@ -62,6 +64,28 @@ function newChat(data)
 	else {
     		console.log("Botinator: " + "[" + data.un + "] " + textOfMessage);
 	}
+	
+	if(message.indexOf("!afkcheck") !== -1) {
+            lastCheckName = data.un;
+            console.log("User: " + data.un + " just sent an afk check");
+            return;
+        }
+        
+        if(mentioned && message.indexOf("AFK check") !== -1 && data.un == "Bot") {
+            console.log("Bot just afk checked us!");
+            //API: https://developer.mozilla.org/en-US/docs/Web/API/Notification/
+            if (Notification){
+                if (Notification.permission !== "granted")
+                    Notification.requestPermission();
+                else {
+                    var notification = new Notification('Botinator', {body: "You've been sent an AFK check message!",});
+                    notification.onclick = function () {
+                        $('#chat-input-field').val("!" + lastCheckName + "check");
+                    };
+                }
+            }
+        }
+        
 	//disables joining
 	//bouncers+
 	//!disable
