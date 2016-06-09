@@ -43,9 +43,9 @@ function newChat(data)
 			if (Notification.permission !== "granted")
 				Notification.requestPermission();
 			else {
-				var notification = new Notification('Alert Bot', {body: "You've been pinged!",});
+				var notification = new Notification('Alert Bot', {body: "You've been pinged by " + data.un + "!",});
 				notification.onclick = function () {
-					$('#chat-input-field').val("@" + username);
+					$('#chat-input-field').val("@" + data.un);
 				};
 				boop.play();
 			}
