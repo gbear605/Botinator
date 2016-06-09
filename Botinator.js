@@ -36,6 +36,22 @@ function newChat(data)
 	mentioned = message.indexOf("@" + API.getUser().username) !== -1,
 	perm      = API.getUser(data.uid).permission;
     
+    	if(mentioned) {
+    		console.log("We just got pinged!");
+		//API: https://developer.mozilla.org/en-US/docs/Web/API/Notification/
+		if (Notification){
+			if (Notification.permission !== "granted")
+				Notification.requestPermission();
+			else {
+				var notification = new Notification('Alert Bot', {body: "You've been pinged!",});
+				notification.onclick = function () {
+					$('#chat-input-field').val("@" + username);
+				};
+				boop.play();
+			}
+		}
+    	}
+    
     	var textOfMessage = '';
 	for (var i = 0; i < message.length; i++) {
 	   textOfMessage += message[i] + ' ';
