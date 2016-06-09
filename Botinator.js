@@ -47,7 +47,7 @@ function newChat(data)
 			else {
 				var notification = new Notification('Botinator', {body: "You've been pinged by " + data.un + "!",});
 				notification.onclick = function () {
-					$('#chat-input-field').val("@" + data.un);
+					$('#chat-input-field').val("@" + data.un + " ");
 				};
 				boop.play();
 			}
@@ -78,7 +78,7 @@ function newChat(data)
                 if (Notification.permission !== "granted")
                     Notification.requestPermission();
                 else {
-                    var notification = new Notification('Botinator', {body: "You've been sent an AFK check message!",});
+                    var notification = new Notification('Botinator', {body: "You've been sent an AFK check message by " + lastCheckName + "!",});
                     notification.onclick = function () {
                         $('#chat-input-field').val("!" + lastCheckName + "check");
                     };
