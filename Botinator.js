@@ -71,7 +71,7 @@ function newChat(data)
             return;
         }
         
-        if(mentioned && message.indexOf("AFK check") !== -1 && data.un == "Bot") {
+        if(mentioned && message.indexOf("afk check") !== -1 && data.un == "Bot") {
             console.log("Bot just afk checked us!");
             //API: https://developer.mozilla.org/en-US/docs/Web/API/Notification/
             if (Notification){
