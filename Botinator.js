@@ -1,6 +1,8 @@
-var botEnabled = true,
-	history = API.getHistory(),
-	lastVolume = API.getVolume(),
+var API;
+var $;
+function get() { return 0;}
+
+var lastVolume = API.getVolume(),
 	isMuted,
 	boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav'),
 	autowoot = true,
@@ -28,25 +30,19 @@ var lastCheckName = "";
 
 function newChat(data)
 {
-	var message = data.message.replace(/&#39;/g, "'")
-                          	  .replace(/&amp;/g, "&")
-                          	  .replace(/&#34;/g, "\"")
-                          	  .replace(/&#59;/g, ";")
-                          	  .replace(/&lt;/g, "<")
-                          	  .replace(/&gt;/g, ">")
-                          	  .toLowerCase().split(' '),
-	mentioned = message.indexOf("@" + API.getUser().username) !== -1,
-	perm      = API.getUser(data.uid).permission;
+	var message = data.message.replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/&#34;/g, "\"").replace(/&#59;/g, ";").replace(/&lt;/g, "<").replace(/&gt;/g, ">").toLowerCase().split(' '),
+	mentioned = message.indexOf("@" + API.getUser().username) !== -1;
+    	
     
     	if(mentioned) {
     		console.log("We just got pinged!");
 		//API: https://developer.mozilla.org/en-US/docs/Web/API/Notification/
 		if (Notification){
-			if (Notification.permission !== "granted")
+			if (Notification.permission !== "granted") {
 				Notification.requestPermission();
-			else {
-				var notification = new Notification('Botinator', {body: "You've been pinged by " + data.un + "!",});
-				notification.onclick = function () {
+			} else {
+				var mentionNotification = new Notification('Botinator', {body: "You've been pinged by " + data.un + "!"});
+				mentionNotification.onclick = function () {
 					$('#chat-input-field').val("@" + data.un + " ");
 				};
 				boop.play();
@@ -75,11 +71,11 @@ function newChat(data)
             console.log("Bot just afk checked us!");
             //API: https://developer.mozilla.org/en-US/docs/Web/API/Notification/
             if (Notification){
-                if (Notification.permission !== "granted")
+                if (Notification.permission !== "granted") {
                     Notification.requestPermission();
-                else {
-                    var notification = new Notification('Botinator', {body: "You've been sent an AFK check message by " + lastCheckName + "!",});
-                    notification.onclick = function () {
+                } else {
+                    var afkNotification = new Notification('Botinator', {body: "You've been sent an AFK check message by " + lastCheckName + "!"});
+                    afkNotification.onclick = function () {
                         $('#chat-input-field').val("!" + lastCheckName + "check");
                     };
                 }
@@ -93,7 +89,7 @@ function newChat(data)
 	{
     		if(autojoin)
     		{
-        		autojoin = false
+        		autojoin = false;
        			API.sendChat("@" + data.un + " Botinator auto join disabled.");
     		}
     		else
@@ -185,7 +181,7 @@ function newCommand(data)
 			{
 				l = 1;
 			}
-			for(var i = l; i < message.length; i++)
+			for(i = l; i < message.length; i++)
 			{
 		   		additionalText = additionalText + " " + messageTrue[i];
 			}
@@ -293,11 +289,14 @@ API.on(API.CHAT_COMMAND, newCommand);
 
 API.on(API.USER_JOIN, userJoined);
 
+API.on(API.USER_LEAVE, userLeft);
+
 API.on(API.ADVANCE, nextDJ);
 
 API.on(API.VOTE_UPDATE, voteUpdate);
 
 API.on(API.GRAB_UPDATE, curateUpdate);
+
 
 
 
