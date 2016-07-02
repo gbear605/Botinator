@@ -1,6 +1,6 @@
-var API;
-var $;
-function get() { return 0;}
+function cleanUpText(text) {
+	return text.replace(/&#8238;/g, "")
+}
 
 var lastVolume = API.getVolume(),
 	isMuted,
@@ -30,7 +30,8 @@ var lastCheckName = "";
 
 function newChat(data)
 {
-	var message = data.message.replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/&#34;/g, "\"").replace(/&#59;/g, ";").replace(/&lt;/g, "<").replace(/&gt;/g, ">").toLowerCase().split(' '),
+	data.un = cleanUpText(data.un)
+	var message = cleanUpText(data.message).replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/&#34;/g, "\"").replace(/&#59;/g, ";").replace(/&lt;/g, "<").replace(/&gt;/g, ">").toLowerCase().split(' '),
 	mentioned = message.indexOf("@" + API.getUser().username) !== -1;
     	
     
@@ -102,7 +103,7 @@ function newChat(data)
 	//!status
 	if (message.indexOf("!status") !== -1 && mentioned)
 	{
-		API.sendChat("@" + data.from + " - Status: Running Botinator (Gbear605's script), autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
+		API.sendChat("@" + data.un + " - Status: Running Botinator (Gbear605's script), autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
 	}
 }
 
@@ -242,12 +243,12 @@ function newCommand(data)
 
 function userJoined(user)
 {
-    API.chatLog(user.username + " joined the room.");
+    API.chatLog(cleanUpText(user.username) + " joined the room.");
 }
 
 function userLeft(user)
 {
-    API.chatLog(user.username + " left the room");
+    API.chatLog(cleanUpText(user.username) + " left the room");
 }
 
 function nextDJ(data)
@@ -263,22 +264,21 @@ function nextDJ(data)
 
 	var minutes = Math.floor(data.media.duration / 60);
 	var seconds = data.media.duration - (minutes * 60);
-
-    	API.chatLog(data.dj.username + " is playing " + data.media.title + " by " + data.media.author + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
+    	API.chatLog(cleanUpText(data.dj.username) + " is playing " + cleanUpText(data.media.title) + " by " + cleanUpText(data.media.author) + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
 }
 
 function voteUpdate(data)
 {
 	if (data.vote == -1)
 	{
-	    API.chatLog(data.user.username + " mehed.");
+	    API.chatLog(cleanUpText(data.user.username) + " mehed.");
 	}
 }
 
 function curateUpdate(data)
 {
 	var media = API.getMedia();
-	API.chatLog(data.user.username + " curated " + media.author + " - " + media.title + ".");
+	API.chatLog(cleanUpText(data.user.username) + " curated " + cleanUpText(media.author) + " - " + cleanUpText(media.title) + ".");
 }
 
 API.chatLog("Botinator Loaded");
