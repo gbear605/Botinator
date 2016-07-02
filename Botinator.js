@@ -103,7 +103,7 @@ function newChat(data)
 	//!status
 	if (message.indexOf("!status") !== -1 && mentioned)
 	{
-		API.sendChat("@" + data.un + " - Status: Running Botinator (Gbear605's script), autowoot: " + get("autowoot") + ", autojoin: " + get("autojoin"));
+		API.sendChat("@" + data.un + " - Status: Running Botinator (Gbear605's script), autowoot: " + autowoot + ", autojoin: " + autojoin);
 	}
 }
 
