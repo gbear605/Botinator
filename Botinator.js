@@ -30,7 +30,9 @@ var lastCheckName = "";
 
 function newChat(data)
 {
-	data.un = cleanUpText(data.un)
+	if(data.un != null) {
+		data.un = cleanUpText(data.un)
+	}
 	var message = cleanUpText(data.message).replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/&#34;/g, "\"").replace(/&#59;/g, ";").replace(/&lt;/g, "<").replace(/&gt;/g, ">").toLowerCase().split(' '),
 	mentioned = message.indexOf("@" + API.getUser().username) !== -1;
     	
