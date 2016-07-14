@@ -6,7 +6,8 @@ var lastVolume = API.getVolume(),
 	isMuted,
 	boop = new Audio('https://github.com/Gbear605/Botinator/raw/master/Boop.wav'),
 	autowoot = true,
-	autojoin = true;
+	autojoin = true,
+	tempMuted = false;
 
 function woot() { $('#woot').click(); }
 
@@ -16,12 +17,27 @@ function mute() {
 	isMuted = true;
 	lastVolume = API.getVolume();
 	API.setVolume(0);
+	API.chatLog("Mute started");
 }
 
 function unmute() {
 	isMuted = false;
 	API.setVolume(lastVolume);
 	lastVolume = 0;
+	tempMuted = false;
+	API.chatLog("Mute ended");
+}
+
+function tempMute() {
+	mute();
+	tempMuted = true;
+	API.chatLog("Temporary mute started");
+}
+
+function unTempMute() {
+	unmute();
+	tempMuted = false;
+	API.chatLog("Temporary mute ended");
 }
 
 function join() { API.djJoin(); }
@@ -221,6 +237,20 @@ function newCommand(data)
 	    	}
 	}
 	
+	//Toggles temp mute
+	// /mute
+	if(message[0] == "/tempmute")
+	{
+	   	if (tempMuted)
+	    	{
+			unTempMute();
+	    	}
+	    	else
+	    	{
+			tempMute();
+	    	}
+	}
+	
 	//Joins DJ List
 	// /join
 	if(message[0] == "/join")
@@ -267,6 +297,9 @@ function nextDJ(data)
 	var minutes = Math.floor(data.media.duration / 60);
 	var seconds = data.media.duration - (minutes * 60);
     	API.chatLog(cleanUpText(data.dj.username) + " is playing " + cleanUpText(data.media.title) + " by " + cleanUpText(data.media.author) + ". It is " + minutes + " minutes long and " + seconds + " seconds long.");
+	if(tempMuted) {
+		unTempMute();
+	}
 }
 
 function voteUpdate(data)
