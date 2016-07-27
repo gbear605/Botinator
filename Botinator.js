@@ -165,7 +165,9 @@ function newCommand(data)
 		time_minutes = message[1]
 		time = time_minutes * 60 * 1000;
     		autojoin = true;
-    		API.chatLog("auto join with timeout of " + time_minutes + " started");
+    		minute = 'minute'
+    		if(time_minute != 1) { minute = 'minutes'}
+    		API.chatLog("auto join with timeout of " + time_minutes + minute + " started");
 		joinTimeout = setTimeout(function() {
 			autojoin = false;	
 		}, time);
