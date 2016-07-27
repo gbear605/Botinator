@@ -160,7 +160,7 @@ function newCommand(data)
 	
 	//sets autojoin timer 
 	// /jtime <time | minutes>
-	if (message[0] == '/jtime' && message.length() > 2)
+	if (message[0] == '/jtime' && message.length > 2)
 	{
 		time_minutes = message[1]
 		time = time_minutes * 60 * 1000;
