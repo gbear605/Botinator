@@ -162,11 +162,11 @@ function newCommand(data)
 	// /jtime <time | minutes>
 	if (message[0] == '/jtime' && message.length >= 2)
 	{
-		time_minutes = message[1]
+		var time_minutes = parseInt(message[1])
 		time = time_minutes * 60 * 1000;
     		autojoin = true;
     		minute = 'minute'
-    		if(time_minute != 1) { minute = 'minutes'}
+    		if(time_minutes != 1) { minute = 'minutes'}
     		API.chatLog("auto join with timeout of " + time_minutes + minute + " started");
 		joinTimeout = setTimeout(function() {
 			autojoin = false;	
